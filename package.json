@@ -1,0 +1,20 @@
+{
+  "name": "a17-generator",
+  "version": "0.1.0",
+  "description": "",
+  "bin": {
+    "a17-generator": "bin/a17_generator.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bing <bing@area17.com> (https://area17.com/)",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "cross-spawn": "^5.1.0",
+    "fs-extra": "^4.0.2",
+    "lodash": "^4.17.4",
+    "readline-sync": "^1.4.7"
+  }
+}
