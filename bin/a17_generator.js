@@ -36,10 +36,10 @@ function writePkgJson() {
 		version: '0.1.0',
 		private: true,
 		dependencies: {
-			'a17-helpers': 'git+https://code.area17.com/bing/helpers-package.git',
+			'a17-helpers': 'git+https://code.area17.com/a17/a17-helpers.git',
 		},
 		devDependencies: {
-			'a17-script': 'git+https://code.area17.com/bing/a17-script.git#gulp',
+			'a17-script': 'git+https://code.area17.com/a17/a17-script.git#gulp',
 		},
 		scripts: {
 			'init': 'a17-script init'
