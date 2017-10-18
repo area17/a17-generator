@@ -32,6 +32,7 @@ Alone with A17 Generator, A17 Script is installed too which can help you to run 
   ```
 
 For more detials, please refer to [A17 Script](https://code.area17.com/a17).
+(Right now a17-generator is using A17 Script gulp version. Please refer the document of the gulp branch)
 
 ## Change Log
 
