@@ -1,6 +1,6 @@
 {
   "name": "a17-generator",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "",
   "bin": {
     "a17-generator": "bin/a17_generator.js"
