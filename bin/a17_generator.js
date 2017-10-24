@@ -43,6 +43,10 @@ function writePkgJson() {
 		},
 		scripts: {
 			'init': 'a17-script init'
+		},
+		engines: {
+			'node': '>= 6.10.3',
+			'npm': '>= 3.10.10'
 		}
 	};
 	

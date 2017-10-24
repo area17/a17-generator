@@ -36,6 +36,10 @@ For more detials, please refer to [A17 Script](https://code.area17.com/a17).
 
 ## Change Log
 
+**0.1.2**
+
+Add engines property to package.json
+
 **0.1.1**
 
 Updated default git packages link
