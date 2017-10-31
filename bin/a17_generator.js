@@ -31,6 +31,17 @@ function writePkgJson() {
 		}
 	}
 
+	let sourceOption = readlineSync.question(chalk.cyan('A17 script version?(npm/gulp[default])'));
+	let a17Source;
+
+	if(sourceOption === 'npm') {
+		console.log('Picked Npm task version of A17 script');
+		a17Source = 'git+https://code.area17.com/a17/a17-script.git#npm-tasks';
+	} else {
+		console.log('Picked gulp verison of A17 script');
+		a17Source = 'git+https://code.area17.com/a17/a17-script.git#gulp';
+	}
+
 	const packageJson = {
 		name: appName,
 		version: '0.1.0',
@@ -39,7 +50,7 @@ function writePkgJson() {
 			'a17-helpers': 'git+https://code.area17.com/a17/a17-helpers.git',
 		},
 		devDependencies: {
-			'a17-script': 'git+https://code.area17.com/a17/a17-script.git#gulp',
+			'a17-script': a17Source,
 		},
 		scripts: {
 			'init': 'a17-script init'
