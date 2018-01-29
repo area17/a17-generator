@@ -12,6 +12,8 @@ const processArgv = _.toArray(process.argv);
 const args = processArgv.slice(2);
 const appName = args[0];
 
+
+// Main install process
 console.log(chalk.green('Start to install'));
 
 console.log(`Creating '${appName}' at ${process.cwd()} \n`);
@@ -24,7 +26,10 @@ console.log(chalk.blue(`[3/3] Generate boilerplate files`));
 init();
 
 console.log(chalk.green('Finished, enjoy!'));
+// End of install process
 
+
+// Generate package.json file for the project
 function writePkgJson() {
 
 	if(fs.existsSync(path.join(process.cwd(),'package.json'))) {
@@ -70,6 +75,7 @@ function writePkgJson() {
 	console.log(chalk.green('package.json is created'));
 }
 
+// Install necessary packages (a17-helpers / a17-scripts)
 function installPackage() {
 	let result = spawn.sync('npm', ['install'], {stdio: 'inherit'});
 
@@ -81,6 +87,7 @@ function installPackage() {
 	}
 }
 
+// Initialize files (using a17-script init function)
 function init() {
 	console.log(`Start to initialize project`);
 	let result = spawn.sync('npm', ['run','init'], {stdio: 'inherit'});
