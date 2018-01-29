@@ -14,31 +14,32 @@ const appName = args[0];
 
 console.log(chalk.green('Start to install'));
 
-console.log(`Creating '${appName}' at ${process.cwd()}`);
+console.log(`Creating '${appName}' at ${process.cwd()} \n`);
 
+console.log(chalk.blue(`[1/3] Create package.json file`));
 writePkgJson();
+console.log(chalk.blue(`[2/3] Install packages(This might take some time)`));
 installPackage();
+console.log(chalk.blue(`[3/3] Generate boilerplate files`));
 init();
 
-console.log(chalk.green('Finished'));
+console.log(chalk.green('Finished, enjoy!'));
 
 function writePkgJson() {
 
 	if(fs.existsSync(path.join(process.cwd(),'package.json'))) {
-		let answer = readlineSync.question(chalk.cyan('Existing package.json is found, continue will overwrite, are you sure?(y/n)'));
+		let answer = readlineSync.question('Existing package.json is found, continue will overwrite, are you sure?(y/n)');
 		if(answer !== 'y') {
 			process.exit();
 		}
 	}
 
-	let sourceOption = readlineSync.question(chalk.cyan('A17 script version?(npm/gulp[default])'));
+	let sourceOption = readlineSync.question('Which task runner do you prefer? (npm/gulp[default])');
 	let a17Source;
 
 	if(sourceOption === 'npm') {
-		console.log('Picked Npm task version of A17 script');
 		a17Source = 'git+https://code.area17.com/a17/a17-script.git#npm-tasks';
 	} else {
-		console.log('Picked gulp verison of A17 script');
 		a17Source = 'git+https://code.area17.com/a17/a17-script.git#gulp';
 	}
 
@@ -65,17 +66,18 @@ function writePkgJson() {
 		path.join(process.cwd(),'package.json'),
 		JSON.stringify(packageJson, null, 2)
 	);
+
+	console.log(chalk.green('package.json is created'));
 }
 
 function installPackage() {
-	console.log(`Start to install packages`);
 	let result = spawn.sync('npm', ['install'], {stdio: 'inherit'});
 
 	if(result.status === 1) {
-		console.log(chalk.red('Fail to install packages'));
+		console.log(chalk.red('Exit with an error'));
 		process.exit();
 	} else {
-		console.log(chalk.green('Packages are successfully installed.'));
+		console.log(chalk.green('Packages are successfully installed'));
 	}
 }
 
@@ -84,10 +86,10 @@ function init() {
 	let result = spawn.sync('npm', ['run','init'], {stdio: 'inherit'});
 	
 	if(result.status === 1) {
-		console.log(chalk.red('Fail to initialize.'));
+		console.log(chalk.red('Exit with an error'));
 		process.exit();
 	} else {
-		console.log(chalk.green('Successfully initialized'));
+		console.log(chalk.green('Files are generated'));
 	}
 }
 
