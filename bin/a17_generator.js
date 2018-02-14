@@ -39,27 +39,18 @@ function writePkgJson() {
 		}
 	}
 
-	let sourceOption = readlineSync.question('Which task runner do you prefer? (npm/gulp[default])');
-	let a17Source;
-
-	if(sourceOption === 'npm') {
-		a17Source = 'git+https://code.area17.com/a17/a17-script.git#npm-tasks';
-	} else {
-		a17Source = 'git+https://code.area17.com/a17/a17-script.git#gulp';
-	}
-
 	const packageJson = {
 		name: appName,
 		version: '0.1.0',
 		private: true,
 		dependencies: {
-			'a17-helpers': 'git+https://code.area17.com/a17/a17-helpers.git',
+			'@area17/a17-helpers': '^0.x',
 		},
 		devDependencies: {
-			'a17-script': a17Source,
+			'@area17/a17-boilerplate': '^3.0.0-beta.1'
 		},
 		scripts: {
-			'init': 'a17-script init'
+			'init': 'a17-bp init'
 		},
 		engines: {
 			'node': '>= 6.10.3',
