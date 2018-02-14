@@ -7,7 +7,7 @@ A17 generator is used to quickly generate a boilerplate.
 **Install A17 generator globally**
 
   ```shell
-  $ npm install -g git+https://code.area17.com/a17/a17-generator.git
+  $ npm install -g @area17/a17-generator
   ```
 
 **Go to the root of your project**
@@ -25,14 +25,13 @@ A17 generator is used to quickly generate a boilerplate.
 
 Now you will have a `frontend` folder, a `package.json` file and all the node modules.
 
-Alone with A17 Generator, A17 Script is installed too which can help you to run all your deve tasks through npm script like this:
+A17 Boilerplate is installed too which can help you to run all your dev tasks through npm script like this:
 
   ```shell
   npm run styles
   ```
 
-For more detials, please refer to [A17 Script](https://code.area17.com/a17/a17-script).
-(Right now a17-generator is using A17 Script gulp version. Please refer the document of the gulp branch)
+For more detials, please refer to [A17 Boilerplate](https://code.area17.com/a17/fe-boilerplate/tree/new_bp).
 
 ## Change Log
 
