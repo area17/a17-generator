@@ -36,6 +36,10 @@ For more detials, please refer to [A17 Script](https://code.area17.com/a17/a17-s
 
 ## Change Log
 
+**0.1.4**
+
+Publish to npm
+
 **0.1.3**
 
 Make install information more clear
