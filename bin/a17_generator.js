@@ -47,7 +47,7 @@ function writePkgJson() {
 			'@area17/a17-helpers': '^0.x',
 		},
 		devDependencies: {
-			'@area17/a17-boilerplate': '^3.0.0-beta.1'
+			'@area17/a17-boilerplate': '^4.2.1'
 		},
 		scripts: {
 			'init': 'a17-bp init'
@@ -57,7 +57,7 @@ function writePkgJson() {
 			'npm': '>= 3.10.10'
 		}
 	};
-	
+
 	fs.writeFileSync(
 		path.join(process.cwd(),'package.json'),
 		JSON.stringify(packageJson, null, 2)
@@ -82,7 +82,7 @@ function installPackage() {
 function init() {
 	console.log(`Start to initialize project`);
 	let result = spawn.sync('npm', ['run','init'], {stdio: 'inherit'});
-	
+
 	if(result.status === 1) {
 		console.log(chalk.red('Exit with an error'));
 		process.exit();

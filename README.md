@@ -1,6 +1,6 @@
 #A17 Generator
 
-A17 generator is used to quickly generate a boilerplate. 
+A17 generator is used to quickly generate a boilerplate.
 
 ## Usage
 
@@ -34,6 +34,10 @@ A17 Boilerplate is installed too which can help you to run all your dev tasks th
 For more detials, please refer to [A17 Boilerplate](https://code.area17.com/a17/fe-boilerplate/tree/new_bp).
 
 ## Change Log
+
+**0.1.5**
+
+Update to latest version of boilerplate
 
 **0.1.4**
 
