@@ -35,6 +35,10 @@ For more detials, please refer to [A17 Boilerplate](https://code.area17.com/a17/
 
 ## Change Log
 
+**0.1.6**
+
+Update to latest version of boilerplate
+
 **0.1.5**
 
 Update to latest version of boilerplate
