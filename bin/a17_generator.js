@@ -47,7 +47,7 @@ function writePkgJson() {
 			'@area17/a17-helpers': '^0.x',
 		},
 		devDependencies: {
-			'@area17/a17-boilerplate': '^5.0.0'
+			'@area17/a17-boilerplate': '^5.0.1'
 		},
 		scripts: {
 			'init': 'a17-bp init'
