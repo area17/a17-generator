@@ -1,6 +1,6 @@
 {
   "name": "@area17/a17-generator",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "The generator of A17 Bolierplate",
   "bin": {
     "a17-generator": "bin/a17_generator.js"

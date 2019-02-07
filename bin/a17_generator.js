@@ -44,10 +44,10 @@ function writePkgJson() {
 		version: '0.1.0',
 		private: true,
 		dependencies: {
-			'@area17/a17-helpers': '^0.x',
+			'@area17/a17-helpers': '^1.x',
 		},
 		devDependencies: {
-			'@area17/a17-boilerplate': '^5.0.1'
+			'@area17/a17-boilerplate': '^6.1.0'
 		},
 		scripts: {
 			'init': 'a17-bp init'
