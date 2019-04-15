@@ -35,6 +35,10 @@ For more details, please refer to [A17 Boilerplate](https://code.area17.com/a17/
 
 ## Change Log
 
+**0.1.11**
+
+Update to latest version of boilerplate
+
 **0.1.10**
 
 Update to latest version of node, npm, boilerplate and helpers
