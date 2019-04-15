@@ -44,17 +44,17 @@ function writePkgJson() {
 		version: '0.1.0',
 		private: true,
 		dependencies: {
-			'@area17/a17-helpers': '^1.x',
+			'@area17/a17-helpers': '^1.0.2',
 		},
 		devDependencies: {
-			'@area17/a17-boilerplate': '^6.1.0'
+			'@area17/a17-boilerplate': '^6.2.4'
 		},
 		scripts: {
 			'init': 'a17-bp init'
 		},
 		engines: {
-			'node': '>= 6.10.3',
-			'npm': '>= 3.10.10'
+			'node': '>= 10.15.0',
+			'npm': '>= 6.9.0'
 		}
 	};
 
