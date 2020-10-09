@@ -47,8 +47,7 @@ function writePkgJson() {
 			'@area17/a17-helpers': '^2.0.0',
 		},
 		devDependencies: {
-			'@area17/a17-boilerplate': '^7.0.0',
-			"@epegzz/sass-vars-loader": "^6.0.0"
+			'@area17/a17-boilerplate': '^7.0.0'
 		},
 		scripts: {
 			'init': 'a17-bp init'
