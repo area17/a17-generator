@@ -14,13 +14,13 @@ function installPackage(cmd) {
 function installPackages(opts) {
   if (opts.styling > -1) {
     const selectedStyling = libs.styling[opts.styling];
-    console.log(chalk.yellow(`Installing ${selectedStyling.name }`));
+    console.log(chalk.yellow(`Installing ${ selectedStyling.name }`));
     installPackage(selectedStyling.cmd);
   }
 
   if (opts.scripting > -1) {
     const selectedScripting = libs.scripting[opts.scripting];
-    console.log(chalk.yellow(`Installing ${selectedScripting.name }`));
+    console.log(chalk.yellow(`Installing ${ selectedScripting.name }`));
     installPackage(selectedScripting.cmd);
   }
 }

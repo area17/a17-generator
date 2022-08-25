@@ -9,6 +9,7 @@ import libs from '../src/libs.js';
 
 import writePkgJson from '../src/writePkgJson.js';
 import installPackages from '../src/installPackages.js';
+import postInstall from '../src/postInstall.js';
 
 const processArgv = [...process.argv];
 const args = processArgv.slice(2);
@@ -44,4 +45,5 @@ installPackages(installOptions);
 
 
 console.log(chalk.green('\nFinished'));
+postInstall(installOptions);
 // End of install process
