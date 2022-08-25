@@ -9,6 +9,7 @@ const applicationOptions = () => {
     styling: -1,
     scripting: -1,
     jsHelpers: false,
+    patternLibrary: -1,
   };
 
   console.log(chalk.cyan(`\nApplication styling with:`));
@@ -22,8 +23,13 @@ const applicationOptions = () => {
   );
 
   if (opts.scripting === -1 || libs.scripting[opts.scripting].name.indexOf('Behaviors') < 0) {
-    opts.jsHelpers = readlineSync.keyInYN('Install A17 JS Helpers?');
+    opts.jsHelpers = readlineSync.keyInYN('\nInstall A17 JS Helpers?');
   }
+
+  console.log(chalk.cyan(`\nPattern Library:`));
+  opts.patternLibrary = readlineSync.keyInSelect(libs.patternLibraries.map(type => type.name), null,
+    { cancel: 'None' }
+  );
 
   return opts;
 };

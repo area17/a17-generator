@@ -27,7 +27,19 @@ const libs = {
     name: 'A17 JS Helpers',
     cmd: 'npm install @area17/a17-helpers',
     docs: 'https://github.com/area17/js-helpers/wiki',
-  }
+  },
+  patternLibraries: [
+    {
+      name: 'Storybook',
+      cmd: 'npx storybook init',
+      docs: 'https://storybook.js.org/docs/react/get-started/introduction'
+    },
+    {
+      name: 'Fractal',
+      cmd: ['npm install @frctl/fractal','npm i -g @frctl/fractal'],
+      docs: 'https://fractal.build/guide/'
+    }
+  ],
 };
 
 export default libs;

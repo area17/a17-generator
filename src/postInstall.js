@@ -18,6 +18,11 @@ function postInstall(opts) {
     console.log(chalk.yellow(`Docs for ${ libs.jsHelpers.name }: ${ chalk.white(libs.jsHelpers.docs) }`));
   }
 
+  if (opts.patternLibrary > -1) {
+    const selectedPatternLibrary = libs.patternLibraries[opts.patternLibrary];
+    console.log(chalk.yellow(`Docs for ${ selectedPatternLibrary.name }: ${ chalk.white(selectedPatternLibrary.docs) }`));
+  }
+
   console.log(chalk.yellow(`\nA17 Dev Docs: ${ chalk.white('http://docs.dev.area17.com/') }\n\n`));
 }
 
