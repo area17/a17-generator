@@ -1,18 +1,28 @@
 import child_process from 'child_process';
+import chalk from 'chalk';
 
-function installPackages() {
-  // let result = spawn.sync('npm', ['install'], {stdio: 'inherit'});
+import libs from './libs.js';
 
-  // if(result.status === 1) {
-  //   console.log(chalk.red('Exit with an error'));
-  //   process.exit();
-  // } else {
-  //   console.log(chalk.green('Packages are successfully installed'));
-  // }
+function installPackage(cmd) {
+  try {
+    return child_process.execSync(cmd).toString();
+  } catch (error) {
+    console.error(chalk.red(`${cmd} failed`));
+  }
+};
 
-  child_process.execSync('npm install @area17/a17-tailwind-plugins',{stdio:[0,1,2]});
+function installPackages(opts) {
+  if (opts.styling > -1) {
+    const selectedStyling = libs.styling[opts.styling];
+    console.log(chalk.yellow(`Installing ${selectedStyling.name }`));
+    installPackage(selectedStyling.cmd);
+  }
 
-  child_process.execSync('npm install @area17/a17-behaviors',{stdio:[0,1,2]});
+  if (opts.scripting > -1) {
+    const selectedScripting = libs.scripting[opts.scripting];
+    console.log(chalk.yellow(`Installing ${selectedScripting.name }`));
+    installPackage(selectedScripting.cmd);
+  }
 }
 
 export default installPackages;
