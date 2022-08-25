@@ -1,19 +1,16 @@
 {
   "name": "@area17/a17-generator",
-  "version": "0.1.16",
+  "version": "1.0.0",
   "description": "The generator of A17 Bolierplate",
+  "author": "A17 <dev@area17.com> (https://area17.com/)",
+  "license": "MIT",
   "bin": {
     "a17-generator": "bin/a17_generator.js"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "https://code.area17.com/a17/a17-generator"
   },
-  "author": "A17 <dev@area17.com> (https://area17.com/)",
-  "license": "MIT",
   "dependencies": {
     "chalk": "^2.1.0",
     "cross-spawn": "^5.1.0",
