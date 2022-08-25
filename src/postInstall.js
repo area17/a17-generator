@@ -13,6 +13,12 @@ function postInstall(opts) {
     const selectedScripting = libs.scripting[opts.scripting];
     console.log(chalk.yellow(`Docs for ${ selectedScripting.name }: ${ chalk.white(selectedScripting.docs) }`));
   }
+
+  if (opts.jsHelpers) {
+    console.log(chalk.yellow(`Docs for ${ libs.jsHelpers.name }: ${ chalk.white(libs.jsHelpers.docs) }`));
+  }
+
+  console.log(chalk.yellow(`\nA17 Dev Docs: ${ chalk.white('http://docs.dev.area17.com/') }\n\n`));
 }
 
 export default postInstall;

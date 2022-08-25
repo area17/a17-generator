@@ -23,6 +23,11 @@ const libs = {
       docs: 'https://vuejs.org/guide/introduction.html',
     }
   ],
+  jsHelpers: {
+    name: 'A17 JS Helpers',
+    cmd: 'npm install @area17/a17-helpers',
+    docs: 'https://github.com/area17/js-helpers/wiki',
+  }
 };
 
 export default libs;

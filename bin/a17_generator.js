@@ -8,6 +8,7 @@ import readlineSync from 'readline-sync';
 import libs from '../src/libs.js';
 
 import writePkgJson from '../src/writePkgJson.js';
+import applicationOptions from '../src/applicationOptions.js';
 import installPackages from '../src/installPackages.js';
 import postInstall from '../src/postInstall.js';
 
@@ -15,35 +16,32 @@ const processArgv = [...process.argv];
 const args = processArgv.slice(2);
 const appName = args[0] === undefined ? path.basename(process.cwd()) : args[0];
 
-// Main install process
-console.log(chalk.green('Start to install'));
+console.log(`
+         17771                /7A
+        /77777/              /A7/
+       /A777777/             A7/
+       A77A/A777/           171
+      A777/ /A77A/         171
+     1777/   /777A        17A
+    17777777777777A      /7A
+   /777A1111111A7771    /7A/
+  /777A         17771  /77/
+  A777/          7777/ A71
+`);
 
-console.log(`Creating '${appName}' at ${process.cwd()} \n`);
+console.log(chalk.green(`Creating '${appName}' at ${process.cwd()}`));
 
-console.log(chalk.magenta(`[1/3] Create package.json file`));
+console.log(chalk.magenta(`\n[1/3] Create package.json file`));
 writePkgJson(appName);
 
-console.log(chalk.magenta(`[2/3] Choose FE application options`));
 
-const installOptions = {
-  styling: -1,
-  scripting: -1,
-};
+console.log(chalk.magenta(`\n[2/3] Choose FE application options`));
+const installOptions = applicationOptions();
 
-console.log(chalk.cyan(`\nApplication styling with:`));
-installOptions.styling = readlineSync.keyInSelect(libs.styling.map(type => type.name), null,
-  { cancel: 'None' }
-);
 
-console.log(chalk.cyan(`\nApplication JavaScript with:`));
-installOptions.scripting = readlineSync.keyInSelect(libs.scripting.map(type => type.name), null,
-  { cancel: 'None' }
-);
-
-console.log(chalk.magenta(`[3/3] Install packages (This might take some time)`));
+console.log(chalk.magenta(`\n[3/3] Install packages (This might take some time)`));
 installPackages(installOptions);
 
 
-console.log(chalk.green('\nFinished'));
+console.log(chalk.green('\n\nFinished\n'));
 postInstall(installOptions);
-// End of install process

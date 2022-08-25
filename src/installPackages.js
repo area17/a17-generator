@@ -23,6 +23,11 @@ function installPackages(opts) {
     console.log(chalk.yellow(`Installing ${ selectedScripting.name }`));
     installPackage(selectedScripting.cmd);
   }
+
+  if (opts.jsHelpers) {
+    console.log(chalk.yellow(`Installing ${ libs.jsHelpers.name }`));
+    installPackage(libs.jsHelpers.cmd);
+  }
 }
 
 export default installPackages;
