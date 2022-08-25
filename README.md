@@ -1,13 +1,14 @@
 #A17 Generator
 
-A17 Generator is used to quickly generate an [A17 Boilerplate](https://code.area17.com/a17/fe-boilerplate/tree/master).
+A17 Generator is used to quickly install A17 FE libraries.
+
 
 ## Usage
 
 **Install A17 Generator globally**
 
   ```shell
-  $ npm install -g @area17/a17-generator
+  $ npx @area17/a17-generator
   ```
 
 **Go to the root of your project**
@@ -23,17 +24,18 @@ A17 Generator is used to quickly generate an [A17 Boilerplate](https://code.area
   $ a17-generator [project-name]
   ```
 
-Now you will have a `frontend` folder, a `package.json` file and all the node modules.
 
-A17 Boilerplate is installed too which can help you to run all your dev tasks through npm script, e.g.:
+Local build testing
 
-  ```shell
-  npm run build
-  ```
-
-For more details, please refer to [A17 Boilerplate](https://code.area17.com/a17/fe-boilerplate/tree/master).
+```shell
+$ node ../a17-generator/bin/a17_generator.js
+```
 
 ## Change Log
+
+**1.0.0**
+
+Re-write
 
 **0.1.16**
 
