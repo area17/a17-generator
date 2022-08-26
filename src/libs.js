@@ -4,11 +4,13 @@ const libs = {
       name: 'A17 Tailwind Plugins',
       cmd: 'npm install @area17/a17-tailwind-plugins',
       docs: 'http://tailwind-plugins.dev.area17.com/',
+      files: ['./node_modules/@area17/a17-tailwind-plugins/docs/tailwind.config.js', './node_modules/@area17/a17-tailwind-plugins/docs/frontend.config.json'],
     },
     {
       name: 'A17 SCSS Utilities',
       cmd: 'npm install @area17/scss-utilities',
       docs: 'http://scss-utilities.dev.area17.com/',
+      files: ['./node_modules/@area17/scss-utilities/docs/_tokens.scss', './node_modules/@area17/scss-utilities/docs/application.scss']
     }
   ],
   scripting: [

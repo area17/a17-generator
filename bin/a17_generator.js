@@ -11,6 +11,7 @@ import libs from '../src/libs.js';
 import writePkgJson from '../src/writePkgJson.js';
 import applicationOptions from '../src/applicationOptions.js';
 import installPackages from '../src/installPackages.js';
+import copySetupFiles from '../src/copySetupFiles.js';
 import postInstall from '../src/postInstall.js';
 
 const processArgv = [...process.argv];
@@ -32,14 +33,17 @@ console.log(`
 
 console.log(chalk.green(`Creating '${appName}' at ${process.cwd()}`));
 
-console.log(chalk.magenta(`\n[1/3] Choose application options`));
+console.log(chalk.magenta(`\n[1/4] Choose application options`));
 const installOptions = applicationOptions();
 
-console.log(chalk.magenta(`\n[2/3] Create package.json file`));
+console.log(chalk.magenta(`\n[2/4] Create package.json file`));
 writePkgJson(appName, installOptions);
 
-console.log(chalk.magenta(`\n[3/3] Install packages (This might take some time)`));
+console.log(chalk.magenta(`\n[3/4] Install packages (This might take some time)`));
 installPackages(installOptions);
+
+console.log(chalk.magenta(`\n[4/4] Copy setup files`));
+copySetupFiles(installOptions);
 
 
 console.log(chalk.green('\n\nFinished\n'));
