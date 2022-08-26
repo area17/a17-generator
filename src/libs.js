@@ -19,7 +19,7 @@ const libs = {
     },
     {
       name: 'Vue',
-      cmd: 'npm init vue@latest',
+      cmd: 'npm init vue@latest .',
       docs: 'https://vuejs.org/guide/introduction.html',
     }
   ],

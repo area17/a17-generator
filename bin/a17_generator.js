@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
+import child_process from 'child_process';
 import chalk from 'chalk';
 import path from 'path';
 import readlineSync from 'readline-sync';
@@ -31,13 +32,11 @@ console.log(`
 
 console.log(chalk.green(`Creating '${appName}' at ${process.cwd()}`));
 
-console.log(chalk.magenta(`\n[1/3] Create package.json file`));
-writePkgJson(appName);
-
-
-console.log(chalk.magenta(`\n[2/3] Choose FE application options`));
+console.log(chalk.magenta(`\n[1/3] Choose application options`));
 const installOptions = applicationOptions();
 
+console.log(chalk.magenta(`\n[2/3] Create package.json file`));
+writePkgJson(appName, installOptions);
 
 console.log(chalk.magenta(`\n[3/3] Install packages (This might take some time)`));
 installPackages(installOptions);

@@ -5,7 +5,7 @@ import libs from './libs.js';
 
 function runCommand(cmd) {
   if (cmd.indexOf('vue') > -1) {
-    child_process.execSync(cmd);
+    child_process.execSync(cmd, { stdio: 'inherit' });
   } else {
     try {
       return child_process.execSync(cmd).toString();
@@ -32,12 +32,7 @@ function installPackage(cmd) {
 };
 
 function installPackages(opts) {
-  if (opts.styling > -1) {
-    const selectedStyling = libs.styling[opts.styling];
-    console.log(chalk.yellow(`Installing ${ selectedStyling.name }`));
-    installPackage(selectedStyling.cmd);
-  }
-
+  // install scripting first because VUE will want to overrite the dir
   if (opts.scripting > -1) {
     const selectedScripting = libs.scripting[opts.scripting];
     console.log(chalk.yellow(`Installing ${ selectedScripting.name }`));
@@ -49,10 +44,22 @@ function installPackages(opts) {
     installPackage(libs.jsHelpers.cmd);
   }
 
+  if (opts.styling > -1) {
+    const selectedStyling = libs.styling[opts.styling];
+    console.log(chalk.yellow(`Installing ${ selectedStyling.name }`));
+    installPackage(selectedStyling.cmd);
+  }
+
   if (opts.patternLibrary > -1) {
     const selectedPatternLibrary = libs.patternLibraries[opts.patternLibrary];
     console.log(chalk.yellow(`Installing ${ selectedPatternLibrary.name }`));
     installPackage(selectedPatternLibrary.cmd);
+  }
+
+  const installingVue = opts.scripting > -1 && libs.scripting[opts.scripting].name.indexOf('Vue') > -1;
+
+  if (installingVue) {
+    runCommand('npm install')
   }
 }
 
