@@ -24,7 +24,8 @@ const applicationOptions = () => {
 
   if (opts.scripting === -1 || libs.scripting[opts.scripting].name.indexOf('Behaviors') < 0) {
     console.log(chalk.cyan(`\nInclude A17 JS Helpers:`));
-    opts.jsHelpers = readlineSync.keyInYN('Yes/No');
+    opts.jsHelpers = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
+    opts.jsHelpers = opts.jsHelpers === 0;
   }
 
   console.log(chalk.cyan(`\nPattern Library:`));
