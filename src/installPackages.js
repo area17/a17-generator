@@ -1,5 +1,7 @@
 import child_process from 'child_process';
 import chalk from 'chalk';
+import fs from 'fs-extra';
+import path from 'path';
 
 import libs from './libs.js';
 
@@ -56,9 +58,7 @@ function installPackages(opts) {
     installPackage(selectedPatternLibrary.cmd);
   }
 
-  const installingVue = opts.scripting > -1 && libs.scripting[opts.scripting].name.indexOf('Vue') > -1;
-
-  if (installingVue) {
+  if (opts.installingVue) {
     runCommand('npm install')
   }
 }

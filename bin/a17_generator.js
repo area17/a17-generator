@@ -43,7 +43,7 @@ console.log(chalk.magenta(`\n[3/4] Install packages (This might take some time)`
 installPackages(installOptions);
 
 console.log(chalk.magenta(`\n[4/4] Copy setup files`));
-copySetupFiles(installOptions);
+copySetupFiles(installOptions, processArgv);
 
 
 console.log(chalk.green('\n\nFinished\n'));

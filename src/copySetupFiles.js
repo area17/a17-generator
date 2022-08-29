@@ -21,7 +21,26 @@ const copyFile = (filePath) => {
 };
 
 
-const copySetupFiles = (opts) => {
+const copySetupFiles = (opts, processArgv) => {
+
+  if (opts.nvmrc) {
+    if(!fs.existsSync(path.join(process.cwd(),'.nvmrc'))) {
+      console.log(chalk.yellow(`Generating .nvmrc file`));
+      runCommand('node -v > .nvmrc');
+    } else {
+      console.log(chalk.gray(`.nvmrc file already exists, skipping generation`));
+    }
+  }
+
+  if (opts.dotFiles) {
+    try {
+      fs.copySync(path.resolve(processArgv[1], '../../dot_files'), process.cwd(), { overwrite: false })
+      console.log(chalk.yellow(`dot files added`));
+    } catch (err) {
+      console.log(chalk.red(`Adding dot files failed`));
+      console.error(err)
+    }
+  }
 
   if (opts.styling > -1) {
     const selectedStyling = libs.styling[opts.styling];
