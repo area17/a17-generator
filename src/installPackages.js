@@ -49,7 +49,7 @@ function installPackages(opts) {
 
   if (opts.webpack) {
     console.log(chalk.yellow(`Installing Webpack`));
-    runCommand('npm install webpack webpack-cli webpack-merge webpack-watch-files-plugin');
+    runCommand('npm install webpack webpack-cli webpack-merge webpack-watch-files-plugin copy-webpack-plugin terser-webpack-plugin webpack-manifest-plugin');
   }
 
   /*
