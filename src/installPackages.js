@@ -47,6 +47,11 @@ function installPackages(opts) {
     installPackage(selectedPatternLibrary.cmd);
   }
 
+  if (opts.webpack) {
+    console.log(chalk.yellow(`Installing Webpack`));
+    runCommand('npm install webpack webpack-cli webpack-merge webpack-watch-files-plugin');
+  }
+
   /*
   if (opts.dotFiles) {
     console.log(chalk.yellow(`Installing Stylelint`));

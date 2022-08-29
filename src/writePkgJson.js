@@ -17,6 +17,14 @@ const writePkgJson = (appName, opts) => {
       license: "MIT",
     };
 
+    if (opts.webpack) {
+      packageJson.scripts = {};
+      packageJson.scripts.build = 'webpack --config webpack.dev.js';
+      packageJson.scripts.dev = 'webpack serve --open --config webpack.dev.js';
+      packageJson.scripts.prod = 'webpack --config webpack.prod.js';
+      packageJson.scripts.watch = 'webpack --config webpack.dev.js --watch';
+    }
+
     fs.writeFileSync(
       path.join(process.cwd(),'package.json'),
       JSON.stringify(packageJson, null, 2)

@@ -42,7 +42,7 @@ writePkgJson(appName, installOptions);
 console.log(chalk.magenta(`\n[3/4] Install packages (This might take some time)`));
 installPackages(installOptions);
 
-console.log(chalk.magenta(`\n[4/4] Copy setup files`));
+console.log(chalk.magenta(`\n[4/4] Copy setup files and folders`));
 copySetupFiles(installOptions, processArgv);
 
 

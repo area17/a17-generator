@@ -6,12 +6,12 @@ import path from 'path';
 import runCommand from './runCommand.js';
 import libs from './libs.js';
 
-const copyFile = (filePath) => {
+const copyFile = (filePath, targetPath = './') => {
   const fileName = path.basename(filePath);
-  console.log(chalk.gray(`\nCopying ${ fileName }`));
+  console.log(chalk.gray(`Copying ${ fileName }`));
   try {
     if (fs.existsSync(filePath)) {
-      fs.copyFileSync(filePath, fileName);
+      fs.copyFileSync(filePath, path.resolve(targetPath, fileName));
     } else {
       console.log(`Error: ${ filePath } doesn't exist`);
     }
@@ -23,6 +23,29 @@ const copyFile = (filePath) => {
 
 
 const copySetupFiles = (opts, processArgv) => {
+
+  if (opts.folderStructure) {
+    console.log(chalk.yellow(`Generating frontend folder structure`));
+    fs.mkdirSync(path.resolve(process.cwd(), 'frontend'));
+    fs.mkdirSync(path.resolve(process.cwd(), 'frontend/fonts'));
+    fs.mkdirSync(path.resolve(process.cwd(), 'frontend/js'));
+
+    if (opts.installingBehaviors) {
+      console.log(chalk.yellow(`Generating A17-behaviors file and folder structure`));
+      fs.mkdirSync(path.resolve(process.cwd(), 'frontend/js/behaviors'));
+      fs.mkdirSync(path.resolve(process.cwd(), 'frontend/js/helpers'));
+      copyFile(path.resolve(processArgv[1], '../../behaviors/application.js'), 'frontend/js/');
+      copyFile(path.resolve(processArgv[1], '../../behaviors/index.js'), 'frontend/js/behaviors');
+      copyFile(path.resolve(processArgv[1], '../../behaviors/myBehavior.js'), 'frontend/js/behaviors');
+    }
+  }
+
+  if (opts.webpack) {
+    console.log(chalk.yellow(`Copying Webpack setup files`));
+    copyFile(path.resolve(processArgv[1], '../../webpack/webpack.common.js'));
+    copyFile(path.resolve(processArgv[1], '../../webpack/webpack.dev.js'));
+    copyFile(path.resolve(processArgv[1], '../../webpack/webpack.prod.js'));
+  }
 
   if (opts.nvmrc) {
     if(!fs.existsSync(path.join(process.cwd(),'.nvmrc'))) {
