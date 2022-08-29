@@ -3,19 +3,8 @@ import chalk from 'chalk';
 import fs from 'fs-extra';
 import path from 'path';
 
+import runCommand from './runCommand.js';
 import libs from './libs.js';
-
-function runCommand(cmd) {
-  if (cmd.indexOf('vue') > -1) {
-    child_process.execSync(cmd, { stdio: 'inherit' });
-  } else {
-    try {
-      return child_process.execSync(cmd).toString();
-    } catch (error) {
-      console.error(chalk.red(`${cmd} failed`));
-    }
-  }
-}
 
 function installPackage(cmd) {
   if (typeof cmd === 'string') {
@@ -57,6 +46,13 @@ function installPackages(opts) {
     console.log(chalk.yellow(`Installing ${ selectedPatternLibrary.name }`));
     installPackage(selectedPatternLibrary.cmd);
   }
+
+  /*
+  if (opts.dotFiles) {
+    console.log(chalk.yellow(`Installing Stylelint`));
+    runCommand(`npm install --save-dev stylelint stylelint-config-recommended stylelint-order stylelint-prettier`)
+  }
+  */
 
   if (opts.installingVue) {
     runCommand('npm install')

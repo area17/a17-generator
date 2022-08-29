@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import fs from 'fs-extra';
 import path from 'path';
 
+import runCommand from './runCommand.js';
 import libs from './libs.js';
 
 const copyFile = (filePath) => {
