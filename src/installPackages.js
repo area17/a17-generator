@@ -56,7 +56,7 @@ function installPackages(opts) {
     }
 
     if (opts.installing.tailwindPlugins) {
-      runCommand('npm install tailwindcss autoprefixer css-loader css-minimizer-webpack-plugin mini-css-extract-plugin postcss-import postcss-loader');
+      runCommand('npm install tailwindcss autoprefixer css-loader css-minimizer-webpack-plugin mini-css-extract-plugin postcss-import postcss-loader webpack-fix-style-only-entries');
     }
   }
 

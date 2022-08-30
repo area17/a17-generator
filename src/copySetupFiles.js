@@ -57,7 +57,7 @@ const copySetupFiles = (opts, processArgv) => {
       copyFile(path.resolve(processArgv[1], '../../scssUtilities/frontend.config.json'), 'frontend');
       webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)::CSS_REQUIRES::/, `\nconst CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries");
+const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
 const DartScss = require('sass');`);
       webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)    ::CSS_ENTRY::/, `\n    'css/application': './frontend/scss/application.scss',`);
       webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)      ::CSS_MINIMIZER::/, `\n      new CssMinimizerPlugin({
@@ -99,7 +99,8 @@ const DartScss = require('sass');`);
       },`);
     } else if (opts.installing.tailwindPlugins) {
       webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)::CSS_REQUIRES::/, `\nconst MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');`);
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');`);
       webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)    ::CSS_ENTRY::/, `\n    'css/application': './frontend/css/application.css',`);
       webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)      ::CSS_MINIMIZER::/, `\n      new CssMinimizerPlugin({
         minimizerOptions: {
@@ -112,7 +113,8 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');`);
         },
         minify: CssMinimizerPlugin.cssoMinify,
       }),`);
-      webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)    ::CSS_PLUGINS::/, `\n    new MiniCssExtractPlugin({
+      webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)    ::CSS_PLUGINS::/, `\n    new FixStyleOnlyEntriesPlugin(),
+    new MiniCssExtractPlugin({
       filename: devMode ? '[name].css' : '[name].[contenthash].css',
     }),`);
       webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)      ::CSS_MODULES::/, `\n      {
