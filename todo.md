@@ -8,4 +8,5 @@
 
     2 webpacks, check for existence of application JS?
 
+* add readme
 * if not vue, install linters, prettier etc. with lint-staged

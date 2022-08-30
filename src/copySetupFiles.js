@@ -42,9 +42,9 @@ const copySetupFiles = (opts, processArgv) => {
 
   if (opts.webpack) {
     console.log(chalk.yellow(`Copying Webpack setup files`));
-    copyFile(path.resolve(processArgv[1], '../../webpack/webpack.common.js'));
-    copyFile(path.resolve(processArgv[1], '../../webpack/webpack.dev.js'));
-    copyFile(path.resolve(processArgv[1], '../../webpack/webpack.prod.js'));
+    copyFile(path.resolve(processArgv[1], '../../webpack/webpack.config.js'));
+    fs.mkdirSync(path.resolve(process.cwd(), 'public'));
+    copyFile(path.resolve(processArgv[1], '../../webpack/index.html'), 'public');
   }
 
   if (opts.nvmrc) {

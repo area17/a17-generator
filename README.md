@@ -28,7 +28,7 @@ A17 Generator is used to quickly install A17 FE libraries.
 Local build testing
 
 ```shell
-$ rm -rf * *.* .* & node ../a17-generator/bin/a17_generator.js
+$ rm -rf * & rm -rf *.* & rm -rf .* & node ../a17-generator/bin/a17_generator.js
 ```
 
 ## Change Log

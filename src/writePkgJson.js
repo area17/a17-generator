@@ -19,10 +19,10 @@ const writePkgJson = (appName, opts) => {
 
     if (opts.webpack) {
       packageJson.scripts = {};
-      packageJson.scripts.build = 'webpack --config webpack.dev.js';
-      packageJson.scripts.dev = 'webpack serve --open --config webpack.dev.js';
-      packageJson.scripts.prod = 'webpack --config webpack.prod.js';
-      packageJson.scripts.watch = 'webpack --config webpack.dev.js --watch';
+      packageJson.scripts.build = 'webpack';
+      packageJson.scripts.dev = 'webpack serve --open';
+      packageJson.scripts.prod = 'NODE_ENV=production webpack';
+      packageJson.scripts.watch = 'webpack --watch';
     }
 
     fs.writeFileSync(
