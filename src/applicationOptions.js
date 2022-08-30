@@ -84,13 +84,18 @@ const applicationOptions = () => {
     console.log(chalk.gray(`.editorconfig, .eslintrc, .prettierrc, .stylelintrc (may need separate dev setup)`));
     opts.dotFiles = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
     opts.dotFiles = opts.dotFiles === 0;
-    console.log(chalk.gray(`${ opts.installing.folderStructure ? 'Add dot files' : 'Don\'t add dot files' }`));
+    console.log(chalk.gray(`${ opts.dotFiles? 'Add dot files' : 'Don\'t add dot files' }`));
+
+    console.log(chalk.cyan(`\nAdd README.md?`));
+    opts.readme = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
+    opts.readme = opts.readme === 0;
+    console.log(chalk.gray(`${ opts.readme ? 'Add README.md' : 'Don\'t add README.md' }`));
 
     console.log(chalk.cyan(`\nAdd .nvmrc?`));
     console.log(chalk.gray(`Sets to current node version`));
     opts.nvmrc = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
     opts.nvmrc = opts.nvmrc === 0;
-    console.log(chalk.gray(`${ opts.installing.folderStructure ? 'Add .nvmrc' : 'Don\'t add .nvmrc' }`));
+    console.log(chalk.gray(`${ opts.nvmrc ? 'Add .nvmrc' : 'Don\'t add .nvmrc' }`));
   }
 
   return opts;

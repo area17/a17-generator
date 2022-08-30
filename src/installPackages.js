@@ -6,7 +6,7 @@ import path from 'path';
 import runCommand from './runCommand.js';
 import libs from './libs.js';
 
-function installPackage(cmd) {
+const installPackage = (cmd) => {
   if (typeof cmd === 'string') {
     runCommand(cmd);
     return;

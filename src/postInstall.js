@@ -29,10 +29,10 @@ function postInstall(opts) {
     console.log(chalk.yellow(`\nWebpack setup added\n`));
     console.log(`See package.json for available build, dev and prod tasks. It is a basic setup and will likely need to be updated to suit your project needs - for example updating the 'output.path' from './public' and updating 'devServer' settings.`);
     console.log(`\nTasks added:`);
-    console.log(`• npm run build - builds assets, copies fonts`);
-    console.log(`• npm run dev - starts a webpack dev server (NB: generates assets ib memory, ie. doesn't generate new asset files in the filesystem)`);
-    console.log(`• npm run prod - builds minified assets, copies fonts`);
-    console.log(`• npm run watch - builds assets, copies fonts, watches for changes and rebuilds`);
+    console.log(chalk.white(`• npm run build`, chalk.gray(`builds assets, copies fonts`)));
+    console.log(chalk.white(`• npm run dev`, chalk.gray(`starts a webpack dev server (NB: generates assets in memory, ie. doesn't generate new asset files in the filesystem)`)));
+    console.log(chalk.white(`• npm run prod`, chalk.gray(`builds minified assets, copies fonts`)));
+    console.log(chalk.white(`• npm run watch`, chalk.gray(`builds assets, copies fonts, watches for changes and rebuilds`)));
   }
 
   console.log(`\n\n`);

@@ -43,8 +43,21 @@ console.log(chalk.magenta(`\n[3/4] Install packages (This might take some time)`
 installPackages(installOptions);
 
 console.log(chalk.magenta(`\n[4/4] Copy setup files and folders`));
-copySetupFiles(installOptions, processArgv);
+copySetupFiles(installOptions, processArgv, appName);
 
+console.log(chalk.green('\nFinished\n'));
 
-console.log(chalk.green('\n\nFinished\n'));
+console.log(`\n\n
+         17771                /7A
+        /77777/              /A7/
+       /A777777/             A7/
+       A77A/A777/           171
+      A777/ /A77A/         171
+     1777/   /777A        17A
+    17777777777777A      /7A
+   /777A1111111A7771    /7A/
+  /777A         17771  /77/
+  A777/          7777/ A71
+`);
+
 postInstall(installOptions);

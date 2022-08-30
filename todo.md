@@ -1,12 +1,4 @@
 # todo
 
-* if not vue, offer to add webpack?
-  * combos:
-    * Tailwind
-    * SCSS Utils
-    * w/wo Behaviors
-
-    2 webpacks, check for existence of application JS?
-
-* add readme
 * if not vue, install linters, prettier etc. with lint-staged
+* if vue, set up for tailwind or scss with vite?
