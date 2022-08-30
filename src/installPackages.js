@@ -47,9 +47,17 @@ function installPackages(opts) {
     installPackage(selectedPatternLibrary.cmd);
   }
 
-  if (opts.webpack) {
+  if (opts.installing.webpack) {
     console.log(chalk.yellow(`Installing Webpack`));
     runCommand('npm install webpack webpack-cli webpack-dev-server webpack-watch-files-plugin copy-webpack-plugin terser-webpack-plugin webpack-manifest-plugin');
+
+    if (opts.installing.scssUtilities) {
+      runCommand('npm install @epegzz/sass-vars-loader mini-css-extract-plugin sass css-minimizer-webpack-plugin css-loader sass-loader style-loader webpack-fix-style-only-entries');
+    }
+
+    if (opts.installing.tailwindPlugins) {
+      runCommand('npm install tailwindcss autoprefixer css-loader css-minimizer-webpack-plugin mini-css-extract-plugin postcss-import postcss-loader');
+    }
   }
 
   /*
@@ -59,7 +67,7 @@ function installPackages(opts) {
   }
   */
 
-  if (opts.installingVue) {
+  if (opts.installing.vue) {
     runCommand('npm install')
   }
 }

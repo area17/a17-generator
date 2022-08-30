@@ -10,7 +10,6 @@ const libs = {
       name: 'A17 SCSS Utilities',
       cmd: 'npm install @area17/scss-utilities',
       docs: 'http://scss-utilities.dev.area17.com/',
-      files: ['./node_modules/@area17/scss-utilities/docs/_tokens.scss', './node_modules/@area17/scss-utilities/docs/application.scss']
     }
   ],
   scripting: [

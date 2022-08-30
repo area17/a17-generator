@@ -3,19 +3,16 @@ const webpack = require('webpack');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+::CSS_REQUIRES::
 
 const devMode = process.env.NODE_ENV !== 'production';
-const passThroughVars = devMode ? {
-  'process.env.MODE': JSON.stringify('development'),
-} : {
-  'process.env.MODE': JSON.stringify('production'),
-};
 
 module.exports = {
   mode: devMode ? 'development' : 'production',
   devtool: devMode ? 'inline-source-map' : false,
   entry: {
-    application: './frontend/js/application.js',
+    'js/application': './frontend/js/application.js',
+    ::CSS_ENTRY::
   },
   output: {
     filename: devMode ? '[name].js' : '[name].[contenthash].js',
@@ -28,10 +25,13 @@ module.exports = {
     minimize: !devMode,
     minimizer: [
       new TerserPlugin(),
+      ::CSS_MINIMIZER::
     ]
   },
   plugins: [
-    new webpack.DefinePlugin(passThroughVars),
+    new webpack.DefinePlugin({
+      'process.env.MODE': JSON.stringify(devMode ? 'development' : 'production')
+    }),
     new WebpackManifestPlugin({
       fileName: 'manifest.json',
       basePath: '/',
@@ -46,7 +46,13 @@ module.exports = {
         },
       ],
     }),
+    ::CSS_PLUGINS::
   ],
+  module: {
+    rules: [
+      ::CSS_MODULES::
+    ]
+  },
   devServer: {
     port: 3000,
     open: false,

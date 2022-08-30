@@ -25,13 +25,14 @@ function postInstall(opts) {
 
   console.log(chalk.yellow(`\nA17 Dev Docs: ${ chalk.white('http://docs.dev.area17.com/') }`));
 
-  if (opts.webpack) {
-    console.log(chalk.yellow(`\nWebpack setup added\nSee package.json for available build, dev and prod tasks. It is a basic setup and will likely need to be updated to suit your project needs - for example updating the 'output.path' from './public' and updating 'devServer' settings.`));
-    console.log(chalk.yellow(`\nTasks added:`));
-    console.log(chalk.yellow(`• npm run build - builds assets, copies fonts`));
-    console.log(chalk.yellow(`• npm run dev - starts a webpack dev server (NB: generates assets ib memory, ie. doesn't generate new asset files in the filesystem)`));
-    console.log(chalk.yellow(`• npm run prod - builds minified assets, copies fonts`));
-    console.log(chalk.yellow(`• npm run watch - builds assets, copies fonts, watches for changes and rebuilds`));
+  if (opts.installing.webpack) {
+    console.log(chalk.yellow(`\nWebpack setup added\n`));
+    console.log(`See package.json for available build, dev and prod tasks. It is a basic setup and will likely need to be updated to suit your project needs - for example updating the 'output.path' from './public' and updating 'devServer' settings.`);
+    console.log(`\nTasks added:`);
+    console.log(`• npm run build - builds assets, copies fonts`);
+    console.log(`• npm run dev - starts a webpack dev server (NB: generates assets ib memory, ie. doesn't generate new asset files in the filesystem)`);
+    console.log(`• npm run prod - builds minified assets, copies fonts`);
+    console.log(`• npm run watch - builds assets, copies fonts, watches for changes and rebuilds`);
   }
 
   console.log(`\n\n`);
