@@ -30,7 +30,7 @@ const writePkgJson = (appName, opts) => {
       JSON.stringify(packageJson, null, 2)
     );
 
-    console.log(chalk.green('package.json is created'));
+    console.log(chalk.yellow('package.json is created'));
   } else {
     if (opts.installing.vue) {
       console.log(chalk.yellow('Skipping package.json creation, Vue will create one'));

@@ -1,6 +1,8 @@
 import child_process from 'child_process';
 import chalk from 'chalk';
 import figlet from 'figlet';
+import readline from 'readline';
+import readlineSync from 'readline-sync';
 
 import libs from './libs.js';
 
@@ -15,7 +17,11 @@ function postInstall(opts, appName) {
       whitespaceBreak: true
   })));
 
-  console.log('  v0.0.1\n');
+  console.log('\n  v0.0.1\n');
+
+  readlineSync.keyInPause(chalk.green(`  ${ appName } created - hit any key to see post installation notes.\n\n\n`), { guide: false });
+  readline.moveCursor(process.stdout, 0, -4);
+  readline.clearLine(process.stdout, 4);
 
   if (opts.styling > -1) {
     const selectedStyling = libs.styling[opts.styling];

@@ -65,5 +65,4 @@ copySetupFiles(installOptions, processArgv, appName);
 printStep('Install packages (This might take some time)');
 installPackages(installOptions);
 
-console.log(chalk.green('\nFinished'));
 postInstall(installOptions, appName);
