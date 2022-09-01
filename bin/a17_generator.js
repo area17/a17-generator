@@ -16,6 +16,11 @@ import postInstall from '../src/postInstall.js';
 
 const processArgv = [...process.argv];
 const args = processArgv.slice(2);
+const maxSteps = 5;
+const printStep = (str) => {
+  console.log(chalk.magenta(`\n[${ currentStep++ }/${ maxSteps }] ${ str }`));
+};
+let currentStep = 1;
 let appName = args[0] === undefined ? path.basename(process.cwd()) : args[0];
 
 console.log(`
@@ -31,25 +36,25 @@ console.log(`
   A777/          7777/ A71
 `);
 
-console.log(chalk.magenta(`\n[1/5] Choose application name`));
+printStep('Choose application name');
 if (!readlineSync.keyInYN(chalk.cyan(`\nIs "${ chalk.white(appName) }" your application name?`))) {
   appName = readlineSync.question('What is your application name? ', {
     defaultInput: appName,
   });
 }
 
-console.log(chalk.magenta(`\n[2/5] Choose application options`));
+printStep('Choose application options');
 const installOptions = applicationOptions();
 
-console.log(chalk.green(`\nCreating '${appName}' at ${process.cwd()}`));
+console.log(chalk.green(`\nCreating '${ chalk.white(appName) }' at ${process.cwd()}`));
 
-console.log(chalk.magenta(`\n[3/5] Create package.json file`));
+printStep('Create package.json file');
 writePkgJson(appName, installOptions);
 
-console.log(chalk.magenta(`\n[4/5] Install packages (This might take some time)`));
+printStep('Install packages (This might take some time)');
 installPackages(installOptions);
 
-console.log(chalk.magenta(`\n[5/5] Copy setup files and folders`));
+printStep('Copy setup files and folders');
 copySetupFiles(installOptions, processArgv, appName);
 
 console.log(chalk.green('\nFinished'));

@@ -15,7 +15,7 @@ function postInstall(opts, appName) {
       whitespaceBreak: true
   })));
 
-  console.log('\n  v0.0.1\n');
+  console.log('  v0.0.1\n');
 
   if (opts.styling > -1) {
     const selectedStyling = libs.styling[opts.styling];
