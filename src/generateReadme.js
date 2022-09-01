@@ -14,6 +14,17 @@ Requires Node v${ nodeVersion }
 * For local development with live reloading, use \`npm run dev\` and open \`http://localhost:3000/\` in a browser
 * For production, run \`npm run prod\` for a minified output`;
 
+    if (opts.lintFiles && opts.installing.linters) {
+      readme += `\n
+## Linting
+
+* \`npm run lint\` runs linters on staged files only
+* \`eslint\` lints all JavaScript files
+* \`prettier\` runs prettier on all files
+* \`stylelint\` lints all CSS/SCSS files
+`;
+    }
+
     if (opts.installing.scssUtilities) {
       readme += `\n
 ## CSS

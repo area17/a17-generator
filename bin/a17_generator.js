@@ -59,10 +59,10 @@ if (installOptions.git.init) {
   initialiseGit(installOptions);
 }
 
-printStep('Copy setup files and folders');
-copySetupFiles(installOptions, processArgv, appName);
-
 printStep('Install packages (This might take some time)');
 installPackages(installOptions);
+
+printStep('Copy setup files and folders');
+copySetupFiles(installOptions, processArgv, appName);
 
 postInstall(installOptions, appName);

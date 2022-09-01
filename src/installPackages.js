@@ -60,12 +60,14 @@ function installPackages(opts) {
     }
   }
 
-  /*
-  if (opts.dotFiles) {
-    console.log(chalk.yellow(`Installing Stylelint`));
-    runCommand(`npm install --save-dev stylelint stylelint-config-recommended stylelint-order stylelint-prettier`)
+  if (opts.lintFiles && opts.installing.linters) {
+    console.log(chalk.yellow(`Installing Linters`));
+    runCommand(`npm install --save-dev stylelint stylelint-config-recommended stylelint-order stylelint-config-prettier stylelint-prettier lint-staged eslint prettier eslint-plugin-prettier eslint-config-prettier babel-eslint`);
+
+    if (!opts.installing.tailwindPlugins) {
+      runCommand(`npm install --save-dev stylelint-scss`);
+    }
   }
-  */
 
   if (opts.installing.vue) {
     runCommand('npm install')

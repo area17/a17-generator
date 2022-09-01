@@ -10,6 +10,8 @@ const applicationOptions = () => {
     scripting: -1,
     jsHelpers: false,
     patternLibrary: -1,
+    dotFiles: false,
+    lintFiles: false,
     git: {
       init: false,
       origin: null,
@@ -21,6 +23,7 @@ const applicationOptions = () => {
       tailwindPlugins: false,
       vue: false,
       webpack: false,
+      linters: false,
     },
   };
 
@@ -99,10 +102,24 @@ const applicationOptions = () => {
     }
 
     console.log(chalk.cyan(`\nAdd dot files?`));
-    console.log(chalk.gray(`.editorconfig, .eslintrc, .prettierrc, .stylelintrc (may need separate dev setup)`));
+    console.log(chalk.gray(`.editorconfig, .gitignore`));
     opts.dotFiles = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
     opts.dotFiles = opts.dotFiles === 0;
     console.log(chalk.gray(`${ opts.dotFiles? 'Add dot files' : 'Don\'t add dot files' }`));
+
+    console.log(chalk.cyan(`\nAdd lint setup dot files?`));
+    console.log(chalk.gray(`.lintstagedrc, .eslintrc, .prettierrc and .stylelintrc`));
+    opts.lintFiles = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
+    opts.lintFiles = opts.lintFiles === 0;
+    console.log(chalk.gray(`${ opts.lintFiles? 'Add lint setup dot files' : 'Don\'t add lint setup dot files' }`));
+
+    if (opts.lintFiles) {
+      console.log(chalk.cyan(`\nAdd lint tasks?`));
+      console.log(chalk.gray(`Installs lintstaged, eslint, prettier and stylelint`));
+      opts.installing.linters = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
+      opts.installing.linters = opts.installing.linters === 0;
+      console.log(chalk.gray(`${ opts.installing.linters? 'Add lint tasks' : 'Don\'t add lint tasks' }`));
+    }
 
     console.log(chalk.cyan(`\nAdd README.md?`));
     opts.readme = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});

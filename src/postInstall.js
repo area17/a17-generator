@@ -54,6 +54,14 @@ function postInstall(opts, appName) {
     console.log(chalk.white(`    • npm run watch`, chalk.gray(`builds assets, copies fonts, watches for changes and rebuilds`)));
   }
 
+  if (opts.lintFiles && opts.installing.linters) {
+    console.log(chalk.yellow(`\n  Lint tasks added`));
+    console.log(chalk.white(`    • lint`, chalk.gray(`runs linters on staged files only`)));
+    console.log(chalk.white(`    • eslint`, chalk.gray(`runs eslint`)));
+    console.log(chalk.white(`    • prettier`, chalk.gray(`runs prettier`)));
+    console.log(chalk.white(`    • stylelint`, chalk.gray(`runs stylelint`)));
+  }
+
   if (opts.git.init) {
     console.log(chalk.yellow(`\n  Git initialised - branch is '${ chalk.white('main') }'`));
     if (!opts.git.origin || opts.git.origin === '') {

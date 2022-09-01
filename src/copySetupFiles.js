@@ -82,7 +82,17 @@ const copySetupFiles = (opts, processArgv, appName) => {
       console.log(chalk.yellow(`dot files added`));
     } catch (err) {
       console.log(chalk.red(`Adding dot files failed`));
-      console.error(err)
+      console.error(err);
+    }
+  }
+
+  if (opts.lintFiles) {
+    try {
+      fs.copySync(path.resolve(processArgv[1], '../../core_files/lintconfigs'), process.cwd(), { overwrite: false })
+      console.log(chalk.yellow(`Lint setup dot files added`));
+    } catch (err) {
+      console.log(chalk.red(`Adding lint setup dot files failed`));
+      console.error(err);
     }
   }
 

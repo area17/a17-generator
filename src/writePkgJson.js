@@ -18,11 +18,19 @@ const writePkgJson = (appName, opts) => {
     };
 
     if (opts.installing.webpack) {
-      packageJson.scripts = {};
+      packageJson.scripts = packageJson.scripts || {};
       packageJson.scripts.build = 'webpack';
       packageJson.scripts.dev = 'webpack serve --open';
       packageJson.scripts.prod = 'NODE_ENV=production webpack';
       packageJson.scripts.watch = 'webpack --watch';
+    }
+
+    if (opts.lintFiles && opts.installing.linters) {
+      packageJson.scripts = packageJson.scripts || {};
+      packageJson.scripts.lint = 'lint-staged';
+      packageJson.scripts.eslint = 'npx eslint "**/*/js"';
+      packageJson.scripts.prettier = 'prettier --list-different';
+      packageJson.scripts.stylelint = 'npx stylelint "**/*.(css|scss|sass)"';
     }
 
     fs.writeFileSync(
