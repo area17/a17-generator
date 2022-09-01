@@ -10,6 +10,10 @@ const applicationOptions = () => {
     scripting: -1,
     jsHelpers: false,
     patternLibrary: -1,
+    git: {
+      init: false,
+      origin: null,
+    },
     installing: {
       behaviors: false,
       scssUtilities: false,
@@ -19,6 +23,20 @@ const applicationOptions = () => {
       webpack: false,
     },
   };
+
+  console.log(chalk.cyan(`\nInitialise Git?`));
+  opts.git.init = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
+  opts.git.init = opts.git.init === 0;
+  console.log(chalk.gray(`${ opts.git.init ? 'Initialise Git' : 'Don\'t initialise Git' }`));
+
+  if (opts.git.init) {
+    console.log(chalk.cyan(`\nDo you have your Git remote URL?`));
+    if (readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'}) === 0) {
+      opts.git.origin = readlineSync.question('What is your Git remote URL? $ ');
+    } else {
+      console.log(chalk.gray(`No Git remote URL specified - will need manually setting later`));
+    }
+  }
 
   console.log(chalk.cyan(`\nApplication styling with:`));
   opts.styling = readlineSync.keyInSelect(libs.styling.map(type => type.name), null,

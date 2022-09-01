@@ -13,6 +13,7 @@ import applicationOptions from '../src/applicationOptions.js';
 import installPackages from '../src/installPackages.js';
 import copySetupFiles from '../src/copySetupFiles.js';
 import postInstall from '../src/postInstall.js';
+import initialiseGit from '../src/initialiseGit.js';
 
 const processArgv = [...process.argv];
 const args = processArgv.slice(2);
@@ -23,6 +24,7 @@ const printStep = (str) => {
 let currentStep = 1;
 let appName = args[0] === undefined ? path.basename(process.cwd()) : args[0];
 
+console.clear();
 console.log(`
          17771                /7A
         /77777/              /A7/
@@ -37,13 +39,14 @@ console.log(`
 `);
 
 printStep('Choose application name');
-if (!readlineSync.keyInYN(chalk.cyan(`\nIs "${ chalk.white(appName) }" your application name?`))) {
+console.log(chalk.cyan(`\nIs "${ chalk.white(appName) }" your application name?`));
+if (readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'}) !== 0) {
   appName = readlineSync.question('What is your application name? ', {
     defaultInput: appName,
   });
 }
 
-printStep('Choose application options');
+printStep('First, lets choose application options');
 const installOptions = applicationOptions();
 
 console.log(chalk.green(`\nCreating '${ chalk.white(appName) }' at ${process.cwd()}`));
@@ -51,11 +54,16 @@ console.log(chalk.green(`\nCreating '${ chalk.white(appName) }' at ${process.cwd
 printStep('Create package.json file');
 writePkgJson(appName, installOptions);
 
-printStep('Install packages (This might take some time)');
-installPackages(installOptions);
+if (installOptions.git.init) {
+  printStep('Initialise Git');
+  initialiseGit(installOptions);
+}
 
 printStep('Copy setup files and folders');
 copySetupFiles(installOptions, processArgv, appName);
+
+printStep('Install packages (This might take some time)');
+installPackages(installOptions);
 
 console.log(chalk.green('\nFinished'));
 postInstall(installOptions, appName);

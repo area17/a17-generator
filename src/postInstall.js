@@ -39,13 +39,21 @@ function postInstall(opts, appName) {
   console.log(chalk.yellow(`\n  A17 Dev Docs: ${ chalk.white('http://docs.dev.area17.com/') }`));
 
   if (opts.installing.webpack) {
-    console.log(chalk.yellow(`\n  Webpack setup added\n`));
+    console.log(chalk.yellow(`\n  Webpack setup added`));
     console.log(`  See package.json for available build, dev and prod tasks. It is a basic setup\n  and will likely need to be updated to suit your project needs - for example \n  updating the 'output.path' from './public' and updating 'devServer' settings.`);
     console.log(`\n  Tasks added:`);
     console.log(chalk.white(`    • npm run build`, chalk.gray(`builds assets, copies fonts`)));
     console.log(chalk.white(`    • npm run dev`, chalk.gray(`starts a webpack dev server (NB: generates assets in memory, ie. doesn't generate new asset files in the filesystem)`)));
     console.log(chalk.white(`    • npm run prod`, chalk.gray(`builds minified assets, copies fonts`)));
     console.log(chalk.white(`    • npm run watch`, chalk.gray(`builds assets, copies fonts, watches for changes and rebuilds`)));
+  }
+
+  if (opts.git.init) {
+    console.log(chalk.yellow(`\n  Git initialised - branch is '${ chalk.white('main') }'`));
+    if (!opts.git.origin || opts.git.origin === '') {
+      console.log(chalk.red(`  No Git remote specified. You will need to manually set your origin:`));
+      console.log(chalk.white(`      git remote add origin YOUR_GIT_ORIGIN`));
+    }
   }
 
   console.log(`\n\n`);
