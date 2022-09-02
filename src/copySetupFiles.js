@@ -124,7 +124,7 @@ const copySetupFiles = (opts, processArgv, appName) => {
     if (opts.installing.scssUtilities) {
       console.log(chalk.gray(`Adding an application.scss file`));
       fs.ensureDirSync(`${ folderStructurePrefix }frontend/scss`);
-      copyFile(path.resolve(processArgv[1], '../../core_files/scssUtilities/application.scss'), 'frontend/scss');
+      copyFile(path.resolve(processArgv[1], '../../core_files/scssUtilities/application.scss'), `${ folderStructurePrefix }frontend/scss`);
     }
 
     if (opts.installing.tailwindPlugins) {

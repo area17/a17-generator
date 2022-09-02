@@ -10,4 +10,9 @@ vendor
 *.sass.map
 *.scss.map
 .DS_Store
-html4css.css
+*.woff2
+*.woff
+*.ttf
+*.eot
+*.otf
+*.txt

@@ -7,6 +7,7 @@ import libs from './libs.js';
 
 // Generate package.json file for the project
 const writePkgJson = (appName, opts) => {
+  const folderStructurePrefix = opts.installing.laravel ? 'resources/' : '';
 
   if(!fs.existsSync(path.join(process.cwd(),'package.json')) && !opts.installing.vue) {
     const packageJson = {
@@ -26,11 +27,17 @@ const writePkgJson = (appName, opts) => {
     }
 
     if (opts.lintFiles && opts.installing.linters) {
-      packageJson.scripts = packageJson.scripts || {};
-      packageJson.scripts.lint = 'lint-staged';
-      packageJson.scripts.eslint = 'npx eslint "**/*/js"';
-      packageJson.scripts.prettier = 'prettier --list-different';
-      packageJson.scripts.stylelint = 'npx stylelint "**/*.(css|scss|sass)"';
+      packageJson.scripts.eslint = `npx eslint $(git diff --name-only HEAD | xargs)`;
+      packageJson.scripts.prettier = `prettier --list-different $(git diff --name-only HEAD | xargs)`;
+      packageJson.scripts.stylelint = `npx stylelint $(git diff --name-only HEAD | xargs)`;
+
+      packageJson.scripts['eslint:all'] = `npx eslint "${ folderStructurePrefix }/**/*.js"`;
+      packageJson.scripts['prettier:all'] = `prettier --list-different "**/*.*"`;
+      packageJson.scripts['stylelint:all'] = `npx stylelint "${ folderStructurePrefix }/**/*.(css|scss|sass)"`;
+
+      packageJson.scripts.lint = `npm run eslint && npm run stylelint && npm run prettier`;
+      packageJson.scripts['lint:all'] = `npm run eslint:all && npm run stylelint:all && npm run prettier:all`;
+      packageJson.scripts['lint:staged'] = `lint-staged`;
     }
 
     fs.writeFileSync(

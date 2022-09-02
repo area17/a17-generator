@@ -57,10 +57,17 @@ function postInstall(opts, appName) {
 
   if (opts.lintFiles && opts.installing.linters) {
     console.log(chalk.yellow(`\n  Lint tasks added`));
-    console.log(chalk.white(`    • lint`, chalk.gray(`runs linters on staged files only`)));
-    console.log(chalk.white(`    • eslint`, chalk.gray(`runs eslint`)));
-    console.log(chalk.white(`    • prettier`, chalk.gray(`runs prettier`)));
-    console.log(chalk.white(`    • stylelint`, chalk.gray(`runs stylelint`)));
+    console.log(chalk.white(`    • lint`, chalk.gray(`runs linters on changed files only`)));
+    console.log(chalk.white(`    • lint:staged`, chalk.gray(`runs linters on staged files only`)));
+    console.log(chalk.white(`    • lint:all`, chalk.gray(`runs linters on all files`)));
+
+    console.log(chalk.white(`\n    • eslint`, chalk.gray(`runs eslint on changed files only`)));
+    console.log(chalk.white(`    • prettier`, chalk.gray(`runs prettier on changed files only`)));
+    console.log(chalk.white(`    • stylelint`, chalk.gray(`runs stylelint on changed files only`)));
+
+    console.log(chalk.white(`\n    • eslint:all`, chalk.gray(`runs eslint on all files`)));
+    console.log(chalk.white(`    • prettier:all`, chalk.gray(`runs prettier on all files`)));
+    console.log(chalk.white(`    • stylelint:all`, chalk.gray(`runs stylelint on all files`)));
   }
 
   if (opts.git.init) {

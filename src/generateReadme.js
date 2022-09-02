@@ -18,11 +18,17 @@ Requires Node v${ nodeVersion }
       readme += `\n
 ## Linting
 
-* \`npm run lint\` runs linters on staged files only
-* \`eslint\` lints all JavaScript files
-* \`prettier\` runs prettier on all files
-* \`stylelint\` lints all CSS/SCSS files
-`;
+* \`npm run lint\` runs linters on changed files only
+* \`npm run lint:staged\` runs linters on staged files only
+* \`npm run lint:all\` runs linters on all files
+
+* \`npm run eslint\` runs eslint on changed files only
+* \`npm run prettier\` runs prettier on changed files only
+* \`npm run stylelint\` runs stylelint on changed files only
+
+* \`npm run eslint:all\` runs eslint on all files
+* \`npm run prettier:all\` runs prettier on all files
+* \`npm run stylelint:all\` runs stylelint on all files`;
     }
 
     if (opts.installing.scssUtilities) {
