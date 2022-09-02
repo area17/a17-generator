@@ -3,16 +3,18 @@ import fs from 'fs-extra';
 import path from 'path';
 
 const generateWebpackConfig = (opts, processArgv) => {
+  const folderStructurePrefix = opts.installing.laravel ? 'resources/' : '';
   let webpackConfig = fs.readFileSync(path.resolve(processArgv[1], '../../core_files/webpack/webpack.config.js'), { encoding:'utf8' } );
+
+  webpackConfig = webpackConfig.replace(/::FOLDER_PREFIX::/ig, folderStructurePrefix);
 
   console.log(chalk.gray(`Update Webpack config options`));
   if (opts.installing.scssUtilities) {
-    copyFile(path.resolve(processArgv[1], '../../core_files/scssUtilities/frontend.config.json'), 'frontend');
     webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)::CSS_REQUIRES::/, `\nconst CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
 const DartScss = require('sass');`);
-    webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)    ::CSS_ENTRY::/, `\n    'css/application': './frontend/scss/application.scss',`);
+    webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)    ::CSS_ENTRY::/, `\n    'css/application': './${ folderStructurePrefix }frontend/scss/application.scss',`);
     webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)      ::CSS_MINIMIZER::/, `\n      new CssMinimizerPlugin({
       minimizerOptions: {
         preset: [
@@ -44,7 +46,7 @@ const DartScss = require('sass');`);
           options: {
             syntax: 'scss',
             files: [
-              path.resolve(__dirname, 'frontend', 'frontend.config.json')
+              path.resolve(__dirname, '${ folderStructurePrefix }frontend', 'frontend.config.json')
             ]
           }
         },
@@ -54,7 +56,7 @@ const DartScss = require('sass');`);
     webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)::CSS_REQUIRES::/, `\nconst MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');`);
-    webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)    ::CSS_ENTRY::/, `\n    'css/application': './frontend/css/application.css',`);
+    webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)    ::CSS_ENTRY::/, `\n    'css/application': './${ folderStructurePrefix }frontend/css/application.css',`);
     webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)      ::CSS_MINIMIZER::/, `\n      new CssMinimizerPlugin({
       minimizerOptions: {
         preset: [
@@ -88,7 +90,7 @@ const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');`);
             postcssOptions: {
               plugins: [
                 require('postcss-import'),
-                require('tailwindcss')('./frontend/tailwind.config.js'),
+                require('tailwindcss')('./${ folderStructurePrefix }frontend/tailwind.config.js'),
                 require("autoprefixer"),
               ]
             }

@@ -25,28 +25,32 @@ const copyFile = (filePath, targetPath = './') => {
 
 
 const copySetupFiles = (opts, processArgv, appName) => {
+  const folderStructurePrefix = opts.installing.laravel ? 'resources/' : '';
 
   if (opts.installing.folderStructure) {
     console.log(chalk.yellow(`Generating frontend folder structure`));
-    fs.mkdirSync(path.resolve(process.cwd(), 'frontend'));
-    fs.mkdirSync(path.resolve(process.cwd(), 'frontend/fonts'));
-    fs.mkdirSync(path.resolve(process.cwd(), 'frontend/js'));
+    if (opts.installing.laravel) {
+      fs.mkdirSync(path.resolve(process.cwd(), 'resources'));
+    }
+    fs.mkdirSync(path.resolve(process.cwd(), `${ folderStructurePrefix }frontend`));
+    fs.mkdirSync(path.resolve(process.cwd(), `${ folderStructurePrefix }frontend/fonts`));
+    fs.mkdirSync(path.resolve(process.cwd(), `${ folderStructurePrefix }frontend/js`));
 
     if (opts.installing.scssUtilities) {
-      fs.mkdirSync(path.resolve(process.cwd(), 'frontend/scss'));
+      fs.mkdirSync(path.resolve(process.cwd(), `${ folderStructurePrefix }frontend/scss`));
     }
 
     if (opts.installing.tailwindPlugins) {
-      fs.mkdirSync(path.resolve(process.cwd(), 'frontend/css'));
+      fs.mkdirSync(path.resolve(process.cwd(), `${ folderStructurePrefix }frontend/css`));
     }
 
     if (opts.installing.behaviors) {
       console.log(chalk.yellow(`Generating A17-behaviors file and folder structure`));
-      fs.mkdirSync(path.resolve(process.cwd(), 'frontend/js/behaviors'));
-      fs.mkdirSync(path.resolve(process.cwd(), 'frontend/js/helpers'));
-      copyFile(path.resolve(processArgv[1], '../../core_files/behaviors/application.js'), 'frontend/js/');
-      copyFile(path.resolve(processArgv[1], '../../core_files/behaviors/index.js'), 'frontend/js/behaviors');
-      copyFile(path.resolve(processArgv[1], '../../core_files/behaviors/myBehavior.js'), 'frontend/js/behaviors');
+      fs.mkdirSync(path.resolve(process.cwd(), `${ folderStructurePrefix }frontend/js/behaviors`));
+      fs.mkdirSync(path.resolve(process.cwd(), `${ folderStructurePrefix }frontend/js/helpers`));
+      copyFile(path.resolve(processArgv[1], '../../core_files/behaviors/application.js'), `${ folderStructurePrefix }frontend/js/`);
+      copyFile(path.resolve(processArgv[1], '../../core_files/behaviors/index.js'), `${ folderStructurePrefix }frontend/js/behaviors`);
+      copyFile(path.resolve(processArgv[1], '../../core_files/behaviors/myBehavior.js'), `${ folderStructurePrefix }frontend/js/behaviors`);
     }
   }
 
@@ -63,7 +67,11 @@ const copySetupFiles = (opts, processArgv, appName) => {
 
     if (!opts.installing.behaviors) {
       console.log(chalk.gray(`Generating empty application.js`));
-      fs.ensureFileSync(path.resolve(process.cwd(), 'frontend/js/application.js'));
+      fs.ensureFileSync(path.resolve(process.cwd(), `${ folderStructurePrefix }frontend/js/application.js`));
+    }
+
+    if (opts.installing.scssUtilities) {
+      copyFile(path.resolve(processArgv[1], '../../core_files/scssUtilities/frontend.config.json'), `${ folderStructurePrefix }frontend`);
     }
   }
 
@@ -107,7 +115,7 @@ const copySetupFiles = (opts, processArgv, appName) => {
     const selectedStyling = libs.styling[opts.styling];
     if (selectedStyling.files && selectedStyling.files.length) {
       console.log(chalk.yellow(`Copy ${ selectedStyling.name } set up files`));
-      const targetPath = opts.installing.folderStructure ? 'frontend' : null;
+      const targetPath = opts.installing.folderStructure ? `${ folderStructurePrefix }frontend` : null;
       selectedStyling.files.forEach(file => {
         copyFile(file, targetPath);
       });
@@ -115,13 +123,13 @@ const copySetupFiles = (opts, processArgv, appName) => {
 
     if (opts.installing.scssUtilities) {
       console.log(chalk.gray(`Adding an application.scss file`));
-      fs.ensureDirSync('frontend/scss');
+      fs.ensureDirSync(`${ folderStructurePrefix }frontend/scss`);
       copyFile(path.resolve(processArgv[1], '../../core_files/scssUtilities/application.scss'), 'frontend/scss');
     }
 
     if (opts.installing.tailwindPlugins) {
       console.log(chalk.gray(`Adding an application.css file`));
-      fs.copySync(path.resolve(processArgv[1], '../../core_files/tailwindPlugins'), 'frontend/css', { overwrite: false })
+      fs.copySync(path.resolve(processArgv[1], '../../core_files/tailwindPlugins'), `${ folderStructurePrefix }frontend/css`, { overwrite: false })
     }
   }
 

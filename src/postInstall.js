@@ -19,9 +19,10 @@ function postInstall(opts, appName) {
 
   console.log('\n  v0.0.1\n');
 
-  readlineSync.keyInPause(chalk.green(`  ${ appName } created - hit any key to see post installation notes.\n\n\n`), { guide: false });
+  console.log(chalk.green(`  ${ appName } created`));
+  readlineSync.keyInPause(`  Hit any key to see post installation notes\n\n\n`, { guide: false });
   readline.moveCursor(process.stdout, 0, -4);
-  readline.clearLine(process.stdout, 4);
+  readline.clearLine(process.stdout, 3);
 
   if (opts.styling > -1) {
     const selectedStyling = libs.styling[opts.styling];

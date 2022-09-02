@@ -24,6 +24,7 @@ const applicationOptions = () => {
       vue: false,
       webpack: false,
       linters: false,
+      laravel: false,
     },
   };
 
@@ -99,6 +100,14 @@ const applicationOptions = () => {
       opts.installing.folderStructure = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
       opts.installing.folderStructure = opts.installing.folderStructure === 0;
       console.log(chalk.gray(`${ opts.installing.folderStructure ? 'Add folder structure' : 'Don\'t add folder structure' }`));
+    }
+
+    if (opts.installing.folderStructure) {
+      console.log(chalk.cyan(`\nIs this a Laravel app?`));
+      console.log(chalk.gray(`eg: a Twill PHP app`));
+      opts.installing.laravel = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
+      opts.installing.laravel = opts.installing.laravel === 0;
+      console.log(chalk.gray(`${ opts.installing.laravel ? 'Is a Laravel app' : 'Is not a Laravel app' }`));
     }
 
     console.log(chalk.cyan(`\nAdd dot files?`));

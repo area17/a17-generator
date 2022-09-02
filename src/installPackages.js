@@ -62,7 +62,7 @@ function installPackages(opts) {
 
   if (opts.lintFiles && opts.installing.linters) {
     console.log(chalk.yellow(`Installing Linters`));
-    runCommand(`npm install --save-dev stylelint stylelint-config-recommended stylelint-order stylelint-config-prettier stylelint-prettier lint-staged eslint prettier eslint-plugin-prettier eslint-config-prettier babel-eslint`);
+    runCommand(`npm install --save-dev stylelint stylelint-config-recommended stylelint-order stylelint-config-prettier stylelint-prettier lint-staged eslint prettier eslint-plugin-prettier eslint-config-prettier`);
 
     if (!opts.installing.tailwindPlugins) {
       runCommand(`npm install --save-dev stylelint-scss`);

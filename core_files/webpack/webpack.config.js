@@ -11,7 +11,7 @@ module.exports = {
   mode: devMode ? 'development' : 'production',
   devtool: devMode ? 'inline-source-map' : false,
   entry: {
-    'js/application': './frontend/js/application.js',
+    'js/application': './::FOLDER_PREFIX::frontend/js/application.js',
     ::CSS_ENTRY::
   },
   output: {
@@ -40,7 +40,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: './frontend/fonts/*.*',
+          from: './::FOLDER_PREFIX::frontend/fonts/*.*',
           to: './public/assets/fonts/[name][ext]',
           noErrorOnMissing: true,
         },
