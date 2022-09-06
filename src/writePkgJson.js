@@ -41,6 +41,11 @@ const writePkgJson = (appName, opts) => {
       packageJson.scripts['lint:staged'] = `lint-staged`;
     }
 
+    if (opts.installing.preCommitHook) {
+      packageJson.scripts = packageJson.scripts || {};
+      packageJson.scripts.prepare = 'husky install';
+    }
+
     fs.writeFileSync(
       path.join(process.cwd(),'package.json'),
       JSON.stringify(packageJson, null, 2)
