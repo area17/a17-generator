@@ -101,6 +101,12 @@ function postInstall(opts, appName) {
     }
   }
 
+  if (opts.patternLibrary > -1) {
+    console.log(chalk.yellow(`\n  Pattern library installation`));
+    console.log(chalk.white(`  Will require additional manual setup.`));
+    console.log(chalk.gray(`  a17-generator config doesn't yet account for pattern library setup`));
+  }
+
   console.log(`\n\n`);
 }
 
