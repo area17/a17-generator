@@ -1,7 +1,7 @@
 {
   "name": "@area17/a17-generator",
   "version": "1.0.0",
-  "description": "The generator of A17 Bolierplate",
+  "description": "A17 Generator is used to quickly install A17 FE libraries",
   "author": "A17 <dev@area17.com> (https://area17.com/)",
   "license": "MIT",
   "type": "module",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://code.area17.com/a17/a17-generator"
+    "url": "https://github.com/area17/a17-generator"
   },
   "dependencies": {
     "chalk": "^5.0.1",
