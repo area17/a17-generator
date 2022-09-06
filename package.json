@@ -1,6 +1,6 @@
 {
   "name": "@area17/a17-generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A17 Generator is used to quickly install A17 FE libraries",
   "author": "A17 <dev@area17.com> (https://area17.com/)",
   "license": "MIT",
