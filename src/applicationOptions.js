@@ -1,3 +1,4 @@
+import fs from 'fs-extra';
 import chalk from 'chalk';
 import readlineSync from 'readline-sync';
 
@@ -29,17 +30,19 @@ const applicationOptions = () => {
     },
   };
 
-  console.log(chalk.cyan(`\nInitialise Git?`));
-  opts.git.init = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
-  opts.git.init = opts.git.init === 0;
-  console.log(chalk.gray(`${ opts.git.init ? 'Initialise Git' : 'Don\'t initialise Git' }`));
+  if (!fs.existsSync('.git')) {
+    console.log(chalk.cyan(`\nInitialise Git?`));
+    opts.git.init = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
+    opts.git.init = opts.git.init === 0;
+    console.log(chalk.gray(`${ opts.git.init ? 'Initialise Git' : 'Don\'t initialise Git' }`));
 
-  if (opts.git.init) {
-    console.log(chalk.cyan(`\nDo you have your Git remote URL?`));
-    if (readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'}) === 0) {
-      opts.git.origin = readlineSync.question('What is your Git remote URL? $ ');
-    } else {
-      console.log(chalk.gray(`No Git remote URL specified - will need manually setting later`));
+    if (opts.git.init) {
+      console.log(chalk.cyan(`\nDo you have your Git remote URL?`));
+      if (readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'}) === 0) {
+        opts.git.origin = readlineSync.question('What is your Git remote URL? $ ');
+      } else {
+        console.log(chalk.gray(`No Git remote URL specified - will need manually setting later`));
+      }
     }
   }
 
