@@ -63,6 +63,6 @@ printStep('Install packages (This might take some time)');
 installPackages(installOptions);
 
 printStep('Copy setup files and folders');
-copySetupFiles(installOptions, processArgv, appName);
+copySetupFiles(installOptions, appName);
 
 postInstall(installOptions, appName);

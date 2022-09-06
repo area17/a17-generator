@@ -2,9 +2,9 @@ import chalk from 'chalk';
 import fs from 'fs-extra';
 import path from 'path';
 
-const generateWebpackConfig = (opts, processArgv) => {
+const generateWebpackConfig = (opts, generatorPath) => {
   const folderStructurePrefix = opts.installing.laravel ? 'resources/' : '';
-  let webpackConfig = fs.readFileSync(path.resolve(processArgv[1], '../../core_files/webpack/webpack.config.js'), { encoding:'utf8' } );
+  let webpackConfig = fs.readFileSync(path.resolve(generatorPath, 'core_files/webpack/webpack.config.js'), { encoding:'utf8' } );
 
   webpackConfig = webpackConfig.replace(/::FOLDER_PREFIX::/ig, folderStructurePrefix);
 

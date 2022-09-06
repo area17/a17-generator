@@ -2,11 +2,15 @@ import child_process from 'child_process';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import path from 'path';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 import runCommand from './runCommand.js';
 import generateWebpackConfig from './generateWebpackConfig.js';
 import generateReadme from './generateReadme.js';
 import libs from './libs.js';
+
+const generatorPath = path.resolve(dirname(fileURLToPath(import.meta.url)), '../');
 
 const copyFile = (filePath, targetPath = './') => {
   const fileName = path.basename(filePath);
@@ -24,7 +28,7 @@ const copyFile = (filePath, targetPath = './') => {
 };
 
 
-const copySetupFiles = (opts, processArgv, appName) => {
+const copySetupFiles = (opts, appName) => {
   const folderStructurePrefix = opts.installing.laravel ? 'resources/' : '';
 
   if (opts.installing.folderStructure) {
@@ -48,22 +52,22 @@ const copySetupFiles = (opts, processArgv, appName) => {
       console.log(chalk.yellow(`Generating A17-behaviors file and folder structure`));
       fs.mkdirSync(path.resolve(process.cwd(), `${ folderStructurePrefix }frontend/js/behaviors`));
       fs.mkdirSync(path.resolve(process.cwd(), `${ folderStructurePrefix }frontend/js/helpers`));
-      copyFile(path.resolve(processArgv[1], '../../core_files/behaviors/application.js'), `${ folderStructurePrefix }frontend/js/`);
-      copyFile(path.resolve(processArgv[1], '../../core_files/behaviors/index.js'), `${ folderStructurePrefix }frontend/js/behaviors`);
-      copyFile(path.resolve(processArgv[1], '../../core_files/behaviors/myBehavior.js'), `${ folderStructurePrefix }frontend/js/behaviors`);
+      copyFile(path.resolve(generatorPath, 'core_files/behaviors/application.js'), `${ folderStructurePrefix }frontend/js/`);
+      copyFile(path.resolve(generatorPath, 'core_files/behaviors/index.js'), `${ folderStructurePrefix }frontend/js/behaviors`);
+      copyFile(path.resolve(generatorPath, 'core_files/behaviors/myBehavior.js'), `${ folderStructurePrefix }frontend/js/behaviors`);
     }
   }
 
   if (opts.installing.webpack) {
     console.log(chalk.yellow(`Setting up Webpack`));
     console.log(chalk.gray(`Generating Webpack config file`));
-    const webpackConfig = generateWebpackConfig(opts, processArgv);
+    const webpackConfig = generateWebpackConfig(opts, generatorPath);
     console.log(chalk.gray(`Writing Webpack config file`));
     fs.writeFileSync(path.resolve(process.cwd(), 'webpack.config.js'), webpackConfig, { encoding: "utf8" });
 
     console.log(chalk.gray(`Set up default index file`));
     fs.mkdirSync(path.resolve(process.cwd(), 'public'));
-    copyFile(path.resolve(processArgv[1], '../../core_files/webpack/index.html'), 'public');
+    copyFile(path.resolve(generatorPath, 'core_files/webpack/index.html'), 'public');
 
     if (!opts.installing.behaviors) {
       console.log(chalk.gray(`Generating empty application.js`));
@@ -71,7 +75,7 @@ const copySetupFiles = (opts, processArgv, appName) => {
     }
 
     if (opts.installing.scssUtilities) {
-      copyFile(path.resolve(processArgv[1], '../../core_files/scssUtilities/frontend.config.json'), `${ folderStructurePrefix }frontend`);
+      copyFile(path.resolve(generatorPath, 'core_files/scssUtilities/frontend.config.json'), `${ folderStructurePrefix }frontend`);
     }
   }
 
@@ -86,7 +90,7 @@ const copySetupFiles = (opts, processArgv, appName) => {
 
   if (opts.dotFiles) {
     try {
-      fs.copySync(path.resolve(processArgv[1], '../../core_files/dot_files'), process.cwd(), { overwrite: false })
+      fs.copySync(path.resolve(generatorPath, 'core_files/dot_files'), process.cwd(), { overwrite: false })
       console.log(chalk.yellow(`dot files added`));
     } catch (err) {
       console.log(chalk.red(`Adding dot files failed`));
@@ -96,7 +100,7 @@ const copySetupFiles = (opts, processArgv, appName) => {
 
   if (opts.lintFiles) {
     try {
-      fs.copySync(path.resolve(processArgv[1], '../../core_files/lintconfigs'), process.cwd(), { overwrite: false })
+      fs.copySync(path.resolve(generatorPath, 'core_files/lintconfigs'), process.cwd(), { overwrite: false })
       console.log(chalk.yellow(`Lint setup dot files added`));
     } catch (err) {
       console.log(chalk.red(`Adding lint setup dot files failed`));
@@ -108,16 +112,13 @@ const copySetupFiles = (opts, processArgv, appName) => {
     if (fs.existsSync('.git')) {
       console.log(chalk.yellow(`Set up pre-commit hook (Husky)`));
       runCommand(`npx Husky install`);
-      if (fs.existsSync('package.json')) {
-        console.log(chalk.gray(`add Husky prepare script to package.json`));
-        runCommand(`npx pkg set scripts.prepare "husky install"`);
-      } else {
+      if (!fs.existsSync('package.json')) {
         console.log(chalk.gray(`warn user no package.json - will need to manually add Husky prepare script`));
       }
       runCommand(`npx husky add .husky/pre-commit "npm run lint:staged"`);
       console.log(chalk.gray(`pre-commit hook added`));
       runCommand(`git add .husky/pre-commit`);
-      runCommand(`git commit -m "adds husky pre-commit hook"`);
+      runCommand(`git commit -m "adds husky pre-commit hook" --no-verify`);
       console.log(chalk.gray(`Committing .husky/pre-commit`));
     } else {
       console.log(chalk.gray(`warn user git not initiated - will need to set up Husky`));
@@ -133,7 +134,7 @@ const copySetupFiles = (opts, processArgv, appName) => {
 
   if (opts.styling > -1) {
     const selectedStyling = libs.styling[opts.styling];
-    if (selectedStyling.files && selectedStyling.files.length) {
+    if (selectedStyling.files && selectedStyling.files.glength) {
       console.log(chalk.yellow(`Copy ${ selectedStyling.name } set up files`));
       const targetPath = opts.installing.folderStructure ? `${ folderStructurePrefix }frontend` : null;
       selectedStyling.files.forEach(file => {
@@ -144,12 +145,12 @@ const copySetupFiles = (opts, processArgv, appName) => {
     if (opts.installing.scssUtilities) {
       console.log(chalk.gray(`Adding an application.scss file`));
       fs.ensureDirSync(`${ folderStructurePrefix }frontend/scss`);
-      copyFile(path.resolve(processArgv[1], '../../core_files/scssUtilities/application.scss'), `${ folderStructurePrefix }frontend/scss`);
+      copyFile(path.resolve(generatorPath, 'core_files/scssUtilities/application.scss'), `${ folderStructurePrefix }frontend/scss`);
     }
 
     if (opts.installing.tailwindPlugins) {
       console.log(chalk.gray(`Adding an application.css file`));
-      fs.copySync(path.resolve(processArgv[1], '../../core_files/tailwindPlugins'), `${ folderStructurePrefix }frontend/css`, { overwrite: false })
+      fs.copySync(path.resolve(generatorPath, 'core_files/tailwindPlugins'), `${ folderStructurePrefix }frontend/css`, { overwrite: false })
     }
   }
 
