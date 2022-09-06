@@ -1,0 +1,6 @@
+{
+  "*.scss": ["stylelint --syntax=scss", "prettier --list-different"],
+  "*.css": ["stylelint", "prettier --list-different"],
+  ".js": ["eslint", "prettier --list-different"],
+  "*.md": "prettier --list-different"
+}

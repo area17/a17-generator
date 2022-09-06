@@ -1,95 +1,68 @@
 #!/usr/bin/env node
 'use strict';
 
-const path = require('path');
-const fs = require('fs-extra');
-const chalk = require('chalk');
-const spawn = require('cross-spawn');
-const _ = require('lodash');
-const readlineSync = require('readline-sync');
+import child_process from 'child_process';
+import chalk from 'chalk';
+import path from 'path';
+import readlineSync from 'readline-sync';
 
-const processArgv = _.toArray(process.argv);
+import libs from '../src/libs.js';
+
+import writePkgJson from '../src/writePkgJson.js';
+import applicationOptions from '../src/applicationOptions.js';
+import installPackages from '../src/installPackages.js';
+import copySetupFiles from '../src/copySetupFiles.js';
+import postInstall from '../src/postInstall.js';
+import initialiseGit from '../src/initialiseGit.js';
+
+const processArgv = [...process.argv];
 const args = processArgv.slice(2);
-const appName = args[0];
+const maxSteps = 5;
+const printStep = (str) => {
+  console.log(chalk.magenta(`\n[${ currentStep++ }/${ maxSteps }] ${ str }`));
+};
+let currentStep = 1;
+let appName = args[0] === undefined ? path.basename(process.cwd()) : args[0];
 
+console.clear();
+console.log(`
+         17771                /7A
+        /77777/              /A7/
+       /A777777/             A7/
+       A77A/A777/           171
+      A777/ /A77A/         171
+     1777/   /777A        17A
+    17777777777777A      /7A
+   /777A1111111A7771    /7A/
+  /777A         17771  /77/
+  A777/          7777/ A71
+`);
 
-// Main install process
-console.log(chalk.green('Start to install'));
-
-console.log(`Creating '${appName}' at ${process.cwd()} \n`);
-
-console.log(chalk.blue(`[1/3] Create package.json file`));
-writePkgJson();
-console.log(chalk.blue(`[2/3] Install packages(This might take some time)`));
-installPackage();
-console.log(chalk.blue(`[3/3] Generate boilerplate files`));
-init();
-
-console.log(chalk.green('Finished, enjoy!'));
-// End of install process
-
-
-// Generate package.json file for the project
-function writePkgJson() {
-
-	if(fs.existsSync(path.join(process.cwd(),'package.json'))) {
-		let answer = readlineSync.question('Existing package.json is found, continue will overwrite, are you sure?(y/n)');
-		if(answer !== 'y') {
-			process.exit();
-		}
-	}
-
-	const packageJson = {
-		name: appName,
-		version: '0.1.0',
-		private: true,
-		dependencies: {
-			'@area17/a17-helpers': '^2.0.2',
-		},
-		devDependencies: {
-			'@area17/a17-boilerplate': '^7.1.3'
-		},
-		scripts: {
-			'init': 'a17-bp init'
-		},
-		engines: {
-			'node': '>= 10.15.0',
-			'npm': '>= 6.4.1'
-		}
-	};
-
-	fs.writeFileSync(
-		path.join(process.cwd(),'package.json'),
-		JSON.stringify(packageJson, null, 2)
-	);
-
-	console.log(chalk.green('package.json is created'));
+printStep('Choose application name');
+console.log(chalk.cyan(`\nIs "${ chalk.white(appName) }" your application name?`));
+if (readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'}) !== 0) {
+  appName = readlineSync.question('What is your application name? ', {
+    defaultInput: appName,
+  });
 }
 
-// Install necessary packages (a17-helpers / a17-scripts)
-function installPackage() {
-	let result = spawn.sync('npm', ['install'], {stdio: 'inherit'});
+printStep('First, lets choose application options');
+const installOptions = applicationOptions();
 
-	if(result.status === 1) {
-		console.log(chalk.red('Exit with an error'));
-		process.exit();
-	} else {
-		console.log(chalk.green('Packages are successfully installed'));
-	}
+console.log(chalk.green(`\nCreating '${ chalk.white(appName) }' at ${process.cwd()}`));
+
+printStep('Create package.json file');
+writePkgJson(appName, installOptions);
+
+if (installOptions.git.init) {
+  printStep('Initialise Git');
+  initialiseGit(installOptions);
 }
 
-// Initialize files (using a17-script init function)
-function init() {
-	console.log(`Start to initialize project`);
-	let result = spawn.sync('npm', ['run','init'], {stdio: 'inherit'});
+printStep('Install packages (This might take some time)');
+installPackages(installOptions);
 
-	if(result.status === 1) {
-		console.log(chalk.red('Exit with an error'));
-		process.exit();
-	} else {
-		console.log(chalk.green('Files are generated'));
-	}
-}
+printStep('Copy setup files and folders');
+copySetupFiles(installOptions, processArgv, appName);
 
-
-
+postInstall(installOptions, appName);
