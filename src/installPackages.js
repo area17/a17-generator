@@ -69,6 +69,11 @@ function installPackages(opts) {
     }
   }
 
+  if (opts.installing.preCommitHook) {
+    runCommand('npm install husky --save-dev');
+  }
+
+  // vue adds things to the package json that will need installing
   if (opts.installing.vue) {
     runCommand('npm install')
   }

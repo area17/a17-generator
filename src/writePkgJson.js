@@ -27,6 +27,7 @@ const writePkgJson = (appName, opts) => {
     }
 
     if (opts.lintFiles && opts.installing.linters) {
+      packageJson.scripts = packageJson.scripts || {};
       packageJson.scripts.eslint = `npx eslint $(git diff --name-only HEAD | xargs)`;
       packageJson.scripts.prettier = `prettier --list-different $(git diff --name-only HEAD | xargs)`;
       packageJson.scripts.stylelint = `npx stylelint $(git diff --name-only HEAD | xargs)`;

@@ -25,6 +25,7 @@ const applicationOptions = () => {
       webpack: false,
       linters: false,
       laravel: false,
+      preCommitHook: false,
     },
   };
 
@@ -120,14 +121,22 @@ const applicationOptions = () => {
     console.log(chalk.gray(`.lintstagedrc, .eslintrc, .prettierrc and .stylelintrc`));
     opts.lintFiles = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
     opts.lintFiles = opts.lintFiles === 0;
-    console.log(chalk.gray(`${ opts.lintFiles? 'Add lint setup dot files' : 'Don\'t add lint setup dot files' }`));
+    console.log(chalk.gray(`${ opts.lintFiles ? 'Add lint setup dot files' : 'Don\'t add lint setup dot files' }`));
 
     if (opts.lintFiles) {
       console.log(chalk.cyan(`\nAdd lint tasks?`));
       console.log(chalk.gray(`Installs lintstaged, eslint, prettier and stylelint`));
       opts.installing.linters = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
       opts.installing.linters = opts.installing.linters === 0;
-      console.log(chalk.gray(`${ opts.installing.linters? 'Add lint tasks' : 'Don\'t add lint tasks' }`));
+      console.log(chalk.gray(`${ opts.installing.linters ? 'Add lint tasks' : 'Don\'t add lint tasks' }`));
+    }
+
+    if (opts.installing.linters) {
+      console.log(chalk.cyan(`\nAdd pre-commit hook to lint staged files?`));
+      console.log(chalk.gray(`Installs Husky and sets a pre-commit hook`));
+      opts.installing.preCommitHook = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
+      opts.installing.preCommitHook = opts.installing.preCommitHook === 0;
+      console.log(chalk.gray(`${ opts.installing.preCommitHook ? 'Add pre-commit hook' : 'Don\'t add pre-commit hook' }`));
     }
 
     console.log(chalk.cyan(`\nAdd README.md?`));

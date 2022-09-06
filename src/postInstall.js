@@ -1,3 +1,4 @@
+import fs from 'fs-extra';
 import child_process from 'child_process';
 import chalk from 'chalk';
 import figlet from 'figlet';
@@ -75,6 +76,28 @@ function postInstall(opts, appName) {
     if (!opts.git.origin || opts.git.origin === '') {
       console.log(chalk.red(`  No Git remote specified. You will need to manually set your origin:`));
       console.log(chalk.white(`      git remote add origin YOUR_GIT_ORIGIN`));
+    }
+  }
+
+  if (opts.installing.preCommitHook) {
+    console.log(chalk.yellow(`\n  Husky pre-commit hook added`));
+    if (!fs.existsSync('package.json')) {
+      console.log(chalk.red(`  You currently don't have a package.json.\n  When you make one, you will need to manually add Husky prepare script:`));
+      console.log(chalk.gray(`  // package.json`));
+      console.log(chalk.white(`      {
+        "scripts": {
+          "prepare": "husky install"
+        }
+      }`));
+    }
+
+    if (!fs.existsSync('.git')) {
+      console.log(chalk.red(`  Your app currently isn't under Git source control.\n  When you init git, you will need to add the Husky pre-commit hook to your repo:`));
+      console.log(chalk.white(`      npx husky install
+      npm pkg set scripts.prepare "husky install"
+      npx husky add .husky/pre-commit "npm run lint:staged"
+      git add .husky/pre-commit
+      git commit -m "adds husky pre-commit hook"`));
     }
   }
 

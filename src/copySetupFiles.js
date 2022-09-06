@@ -104,6 +104,26 @@ const copySetupFiles = (opts, processArgv, appName) => {
     }
   }
 
+  if (opts.installing.preCommitHook) {
+    if (fs.existsSync('.git')) {
+      console.log(chalk.yellow(`Set up pre-commit hook (Husky)`));
+      runCommand(`npx Husky install`);
+      if (fs.existsSync('package.json')) {
+        console.log(chalk.gray(`add Husky prepare script to package.json`));
+        runCommand(`npx pkg set scripts.prepare "husky install"`);
+      } else {
+        console.log(chalk.gray(`warn user no package.json - will need to manually add Husky prepare script`));
+      }
+      runCommand(`npx husky add .husky/pre-commit "npm run lint:staged"`);
+      console.log(chalk.gray(`pre-commit hook added`));
+      runCommand(`git add .husky/pre-commit`);
+      runCommand(`git commit -m "adds husky pre-commit hook"`);
+      console.log(chalk.gray(`Committing .husky/pre-commit`));
+    } else {
+      console.log(chalk.gray(`warn user git not initiated - will need to set up Husky`));
+    }
+  }
+
   if (opts.readme) {
     console.log(chalk.yellow(`Generating README.md`));
     const readme = generateReadme(opts, process, appName);
