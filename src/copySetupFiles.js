@@ -134,9 +134,9 @@ const copySetupFiles = (opts, appName) => {
 
   if (opts.styling > -1) {
     const selectedStyling = libs.styling[opts.styling];
-    if (selectedStyling.files && selectedStyling.files.glength) {
+    if (selectedStyling.files && selectedStyling.files.length) {
       console.log(chalk.yellow(`Copy ${ selectedStyling.name } set up files`));
-      const targetPath = opts.installing.folderStructure ? `${ folderStructurePrefix }frontend` : null;
+      const targetPath = opts.installing.folderStructure ? `${ folderStructurePrefix }frontend` : './';
       selectedStyling.files.forEach(file => {
         copyFile(file, targetPath);
       });
