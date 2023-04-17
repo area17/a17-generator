@@ -27,6 +27,7 @@ const applicationOptions = () => {
       linters: false,
       laravel: false,
       preCommitHook: false,
+      svgsprite: false,
     },
   };
 
@@ -104,6 +105,12 @@ const applicationOptions = () => {
       opts.installing.folderStructure = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
       opts.installing.folderStructure = opts.installing.folderStructure === 0;
       console.log(chalk.gray(`${ opts.installing.folderStructure ? 'Add folder structure' : 'Don\'t add folder structure' }`));
+    }
+
+    if (opts.installing.webpack) {
+      console.log(chalk.cyan(`\nDo you want to use an SVG sprite?`));
+      opts.installing.svgsprite = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
+      opts.installing.svgsprite = opts.installing.svgsprite === 0;
     }
 
     if (opts.installing.folderStructure) {

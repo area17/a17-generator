@@ -4,6 +4,7 @@ const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 ::CSS_REQUIRES::
+::SPRITE_REQUIRES::
 
 const devMode = process.env.NODE_ENV !== 'production';
 
@@ -47,6 +48,7 @@ module.exports = {
       ],
     }),
     ::CSS_PLUGINS::
+    ::SPRITE_PLUGINS::
   ],
   module: {
     rules: [

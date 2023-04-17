@@ -58,6 +58,10 @@ function installPackages(opts) {
     if (opts.installing.tailwindPlugins) {
       runCommand('npm install tailwindcss autoprefixer css-loader css-minimizer-webpack-plugin mini-css-extract-plugin postcss-import postcss-loader webpack-fix-style-only-entries');
     }
+
+    if (opts.installing.svgsprite) {
+      runCommand('npm install github:cascornelissen/svg-spritemap-webpack-plugin#pull/210/head');
+    }
   }
 
   if (opts.lintFiles && opts.installing.linters) {

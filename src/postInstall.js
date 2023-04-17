@@ -8,6 +8,7 @@ import readlineSync from 'readline-sync';
 import libs from './libs.js';
 
 function postInstall(opts, appName) {
+  const folderStructurePrefix = opts.installing.laravel ? 'resources/' : '';
   console.log('\n_______________________________________________________________________________\n\n');
 
   console.log(chalk.cyan(figlet.textSync(appName, {
@@ -54,6 +55,54 @@ function postInstall(opts, appName) {
     console.log(chalk.white(`    • npm run dev`, chalk.gray(`starts a webpack dev server (NB: generates assets in memory, ie. doesn't generate new asset files in the filesystem)`)));
     console.log(chalk.white(`    • npm run prod`, chalk.gray(`builds minified assets, copies fonts`)));
     console.log(chalk.white(`    • npm run watch`, chalk.gray(`builds assets, copies fonts, watches for changes and rebuilds`)));
+  }
+
+  if (opts.installing.svgsprite) {
+    console.log(chalk.yellow(`\n  SVG sprite setup added`));
+    if (!opts.readme) {
+      console.log(`  Icons are displayed using an SVG sprite. Place your icons inside: \`${ folderStructurePrefix }frontend/svg\`. You may want to replace \`fill\` or \`stroke\` colours with \`currentColor\` so they can be styled by CSS.
+
+  You need to include the sprite in your HTML - in the \`<head>\`:
+
+  \`\`\`html
+  <script type="module">
+    (function(d) {
+      var db = d.body;
+      // insert sprite SVG
+      fetch('/assets/sprite.svg').then(function (response) {
+        return response.text();
+      }).then(function (html) {
+        const s = d.createElement('div');
+        s.innerHTML = html;
+        db.insertBefore(s.firstElementChild, db.childNodes[0]);
+      });
+      window.A17 = {};
+    })(document);
+  </script>
+  \`\`\`
+
+  And then in your HTML document, to display an icon:
+
+  \`\`\`html
+  <svg aria-hidden="true" class="sprite-test">
+    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sprite-test"></use>
+  </svg>
+  \`\`\`
+
+  Note the class \`sprite-test\` - the CSS contains matching classes to give the icon its correct dimentions.
+
+  Alternatively, in your HTML you can:
+
+  \`\`\`html
+  <svg aria-hidden="true" class="sprite-test">
+    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/sprite.svg#sprite-test"></use>
+  </svg>
+  \`\`\`
+
+  Without the requirement to inject the \`sprite.svg\` into your doucment.`);
+    } else {
+      console.log(`Icons are displayed using an SVG sprite. See notes in the \`README.MD\`.`);
+    }
   }
 
   if (opts.lintFiles && opts.installing.linters) {

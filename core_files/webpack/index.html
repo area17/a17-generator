@@ -15,13 +15,12 @@
       de.classList.add('js');
 
       // OPTIONAL - insert sprite SVG
-      fetch('/dist/icons/icons.svg').then(function (response) {
+      fetch('/assets/sprite.svg').then(function (response) {
         return response.text();
       }).then(function (html) {
         const s = d.createElement('div');
-        s.className = 'svg-sprite';
         s.innerHTML = html;
-        db.insertBefore(s, db.childNodes[0]);
+        db.insertBefore(s.firstElementChild, db.childNodes[0]);
       });
 
       window.A17 = {};
@@ -29,7 +28,7 @@
   </script>
 
   <!-- site styles -->
-  <link href="/application.css" rel="stylesheet" />
+  <link href="/assets/css/application.css" rel="stylesheet" />
 
   <!-- icons -->
   <link rel="icon" href="path/to/favicon.ico">
@@ -82,6 +81,9 @@
   <main id="content">
     <!-- CONTENT -->
     <p>This is the default page viewed on initial run of <code>npm run dev</code> after running <code>A17 generator</code>. It contains the HTML from <a href="https://github.com/area17/html-boilerplate" target="_blank">A17 HTML Boilerplate</a>. You will want to configure your application Webpack dev server and delete this HTML. See <code>webpack.config.js</code>.</p>
+    <svg aria-hidden="true" class="sprite-test">
+      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sprite-test"></use>
+    </svg>
   </main>
 
   <footer>
@@ -99,7 +101,7 @@
 </div>
 
 <!-- site JavaScript -->
-<script src="/application.js" type="module"></script>
+<script src="/assets/js//application.js" type="module"></script>
 
 <!-- mustard test fail JS -->
 <script nomodule>
@@ -120,7 +122,7 @@
     s = d.createElement('link');
     s.rel  = 'stylesheet';
     s.title = 'html4css';
-    s.href = 'path/to/html4css.css'; // 🚨 update this path
+    s.href = '/assets/css/html4css.css';
     h.appendChild(s);
 
     // bring in picture fill, if needed
@@ -133,7 +135,7 @@
     }
     // /OPTIONAL - if using HTML4 CSS
 
-    // OPTIONAL - you may want to override any lazy loading images
+    // OPTIONAL - you may want to override any lazy loading images to use native lazy loading
     try {
       var imgs = d.getElementsByTagName('img');
       for (var i = 0; i < imgs.length; i++) {
@@ -142,6 +144,10 @@
         }
         if (imgs[i].getAttribute('data-srcset')) {
           imgs[i].setAttribute('srcset', imgs[i].getAttribute('data-srcset'));
+        }
+        if (imgs[i].getAttribute('data-src') || imgs[i].getAttribute('data-srcset')) {
+          img[i].setAttribute('loading', 'lazy');
+          img[i].setAttribute('decoding', 'async');
         }
       }
     } catch (err) {}

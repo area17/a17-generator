@@ -150,7 +150,50 @@ const copySetupFiles = (opts, appName) => {
 
     if (opts.installing.tailwindPlugins) {
       console.log(chalk.gray(`Adding an application.css file`));
-      fs.copySync(path.resolve(generatorPath, 'core_files/tailwindPlugins'), `${ folderStructurePrefix }frontend/css`, { overwrite: false })
+      fs.copySync(path.resolve(generatorPath, 'core_files/tailwindPlugins'), `${ folderStructurePrefix }frontend/css`, { overwrite: false });
+      console.log(chalk.gray(`Update tailwind plugin require`));
+      let tailwindConfig = fs.readFileSync(`${ folderStructurePrefix }frontend/tailwind.config.js`, { encoding:'utf8' } );
+      tailwindConfig = tailwindConfig.replace(/require\('\.\.\/index'\)/, `require('@area17/a17-tailwind-plugins')`);
+      fs.writeFileSync(`${ folderStructurePrefix }frontend/tailwind.config.js`, tailwindConfig, { encoding: "utf8" });
+    }
+  }
+
+  if (opts.installing.svgsprite) {
+    console.log(chalk.yellow(`Setting up SVG sprite`));
+    console.log(chalk.gray(`Adding test SVG file`));
+    fs.ensureDirSync(`${ folderStructurePrefix }frontend/svg`);
+    copyFile(path.resolve(generatorPath, 'core_files/svgsprite/test.svg'), `${ folderStructurePrefix }frontend/svg`);
+    console.log(chalk.gray(`Generating placeholder sprite.css file`));
+    if (opts.installing.scssUtilities) {
+      fs.ensureDirSync(`${ folderStructurePrefix }frontend/scss`);
+      try {
+        fs.writeFileSync(`${ folderStructurePrefix }frontend/scss/sprite.css`, '');
+      } catch(err) {
+        console.log(`Error generating sprite.css`);
+        console.error(err);
+      }
+    } else {
+      fs.ensureDirSync(`${ folderStructurePrefix }frontend/css`);
+      try {
+        fs.writeFileSync(`${ folderStructurePrefix }frontend/css/sprite.css`, '');
+      } catch(err) {
+        console.log(`Error generating sprite.css`);
+        console.error(err);
+      }
+    }
+
+    if (opts.installing.scssUtilities) {
+      console.log(chalk.gray(`Linking placeholder sprite.css file inside application.scss`));
+      let applicationScss = fs.readFileSync(`${ folderStructurePrefix }frontend/scss/application.scss`, { encoding:'utf8' } );
+      applicationScss += `\n@import 'sprite';`;
+      fs.writeFileSync(`${ folderStructurePrefix }frontend/scss/application.scss`, applicationScss, { encoding: "utf8" });
+    }
+
+    if (opts.installing.tailwindPlugins) {
+      console.log(chalk.gray(`Linking placeholder sprite.css file inside tailwind base.css`));
+      let baseCss = fs.readFileSync(`${ folderStructurePrefix }frontend/css/_base.css`, { encoding:'utf8' } );
+      baseCss += `\n@import 'sprite';`;
+      fs.writeFileSync(`${ folderStructurePrefix }frontend/css/_base.css`, baseCss, { encoding: "utf8" });
     }
   }
 
