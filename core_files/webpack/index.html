@@ -9,16 +9,15 @@
   <!-- head js - if supports JS modules - mustard pass-->
   <script type="module">
     (function(d) {
-      var de = d.documentElement,
-          db = d.body;
+      var de = d.documentElement;
       de.classList.remove('no-js');
       de.classList.add('js');
 
-      // OPTIONAL - insert sprite SVG
-      fetch('/assets/sprite.svg').then(function (response) {
-        return response.text();
+      fetch('/sprite.svg').then(function (res) {
+        return res.text();
       }).then(function (html) {
         const s = d.createElement('div');
+        const db = d.body;
         s.innerHTML = html;
         db.insertBefore(s.firstElementChild, db.childNodes[0]);
       });
@@ -101,7 +100,7 @@
 </div>
 
 <!-- site JavaScript -->
-<script src="/assets/js//application.js" type="module"></script>
+<script src="/assets/js/application.js" type="module"></script>
 
 <!-- mustard test fail JS -->
 <script nomodule>
@@ -144,10 +143,6 @@
         }
         if (imgs[i].getAttribute('data-srcset')) {
           imgs[i].setAttribute('srcset', imgs[i].getAttribute('data-srcset'));
-        }
-        if (imgs[i].getAttribute('data-src') || imgs[i].getAttribute('data-srcset')) {
-          img[i].setAttribute('loading', 'lazy');
-          img[i].setAttribute('decoding', 'async');
         }
       }
     } catch (err) {}
