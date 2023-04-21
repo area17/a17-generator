@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 
 import runCommand from './runCommand.js';
 import generateWebpackConfig from './generateWebpackConfig.js';
+import generateViteConfig from './generateViteConfig.js';
 import generateReadme from './generateReadme.js';
 import libs from './libs.js';
 
@@ -68,6 +69,27 @@ const copySetupFiles = (opts, appName) => {
     console.log(chalk.gray(`Set up default index file`));
     fs.mkdirSync(path.resolve(process.cwd(), 'public'));
     copyFile(path.resolve(generatorPath, 'core_files/webpack/index.html'), 'public');
+
+    if (!opts.installing.behaviors) {
+      console.log(chalk.gray(`Generating empty application.js`));
+      fs.ensureFileSync(path.resolve(process.cwd(), `${ folderStructurePrefix }frontend/js/application.js`));
+    }
+
+    if (opts.installing.scssUtilities) {
+      copyFile(path.resolve(generatorPath, 'core_files/scssUtilities/frontend.config.json'), `${ folderStructurePrefix }frontend`);
+    }
+  }
+
+  if (opts.installing.vite) {
+    console.log(chalk.yellow(`Setting up Vite`));
+    console.log(chalk.gray(`Generating Vite config file`));
+    const viteConfig = generateViteConfig(opts, generatorPath);
+    console.log(chalk.gray(`Writing Vite config file`));
+    fs.writeFileSync(path.resolve(process.cwd(), 'vite.config.js'), viteConfig, { encoding: "utf8" });
+
+    console.log(chalk.gray(`Set up default index file`));
+    fs.mkdirSync(path.resolve(process.cwd(), 'public'));
+    copyFile(path.resolve(generatorPath, 'core_files/vite/index.html'), 'frontend');
 
     if (!opts.installing.behaviors) {
       console.log(chalk.gray(`Generating empty application.js`));

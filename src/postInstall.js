@@ -55,6 +55,28 @@ function postInstall(opts, appName) {
     console.log(chalk.white(`    • npm run dev`, chalk.gray(`starts a webpack dev server (NB: generates assets in memory, ie. doesn't generate new asset files in the filesystem)`)));
     console.log(chalk.white(`    • npm run prod`, chalk.gray(`builds minified assets, copies fonts`)));
     console.log(chalk.white(`    • npm run watch`, chalk.gray(`builds assets, copies fonts, watches for changes and rebuilds`)));
+
+  }
+
+  if (opts.installing.vite) {
+      console.log(chalk.yellow(`\n  Vite setup added`));
+      console.log(`  See package.json for available build and dev tasks. It is a basic setup\n  and will likely need to be updated to suit your project needs.`);
+      console.log(`\n  Tasks added:`);
+      console.log(chalk.white(`    • npm run build`, chalk.gray(`builds assets`)));
+      console.log(chalk.white(`    • npm run dev`, chalk.gray(`starts a vite dev server (NB: generates assets in memory)`)));
+      if (opts.installing.scssUtilities) {
+        console.log(chalk.white(`    • npm run tokens`, chalk.gray(`generate tokens SCSS file`)));
+      }
+  }
+
+  if (opts.installing.vite || opts.installing.webpack) {
+    console.log(chalk.white(`  Any assets stored in \`${ folderStructurePrefix }frontend/fonts\` and \`${ folderStructurePrefix }frontend/img\` will be copied to your assets folder.`));
+    if (opts.installing.vite) {
+      console.log(`  See \`vite.config.js\` for details.`);
+    }
+    if (opts.installing.webpack) {
+      console.log(`  See \`webpack.config.js\` for details.`);
+    }
   }
 
   if (opts.installing.svgsprite) {
@@ -101,7 +123,7 @@ function postInstall(opts, appName) {
 
   Without the requirement to inject the \`sprite.svg\` into your doucment.`);
     } else {
-      console.log(`Icons are displayed using an SVG sprite. See notes in the \`README.MD\`.`);
+      console.log(`  Icons are displayed using an SVG sprite. See notes in the \`README.MD\`.`);
     }
   }
 

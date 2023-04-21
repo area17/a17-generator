@@ -26,6 +26,20 @@ const writePkgJson = (appName, opts) => {
       packageJson.scripts.watch = 'webpack --watch';
     }
 
+    if (opts.installing.vite) {
+      packageJson.scripts = packageJson.scripts || {};
+      if (opts.installing.scssUtilities) {
+        packageJson.scripts.build = 'npm run tokens && vite build';
+        packageJson.scripts.dev = 'npm run tokens && concurrently --raw --kill-others \"npm:dev:*\"';
+        packageJson.scripts['dev:tokens'] = 'npx nodemon --exitcrash --watch ./frontend.config.scss.json -e json --exec npm run tokens';
+        packageJson.scripts['dev:vite'] = 'vite';
+        packageJson.scripts.tokens = 'node ./node_modules/.bin/json-to-scss frontend.config.scss.json ./frontend/scss/_tokens.scss --kv';
+      } else {
+        packageJson.scripts.build = 'vite build';
+        packageJson.scripts.dev = 'vite';
+      }
+    }
+
     if (opts.lintFiles && opts.installing.linters) {
       packageJson.scripts = packageJson.scripts || {};
       packageJson.scripts.eslint = `npx eslint $(git diff --name-only HEAD | xargs)`;

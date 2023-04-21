@@ -1,7 +1,8 @@
 # todo
 
+* fix asset refs in index.html
 * test npm run dev and the index.html
-* vite setup
+* html4css
 
 * if vue, set up for tailwind or scss with vite?
 * check Vue install

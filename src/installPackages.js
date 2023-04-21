@@ -49,18 +49,19 @@ function installPackages(opts) {
 
   if (opts.installing.webpack) {
     console.log(chalk.yellow(`Installing Webpack`));
-    runCommand('npm install webpack webpack-cli webpack-dev-server webpack-watch-files-plugin copy-webpack-plugin terser-webpack-plugin webpack-manifest-plugin');
+    runCommand('npm install --save-dev webpack webpack-cli webpack-dev-server webpack-watch-files-plugin copy-webpack-plugin terser-webpack-plugin webpack-manifest-plugin');
 
     if (opts.installing.scssUtilities) {
-      runCommand('npm install @epegzz/sass-vars-loader mini-css-extract-plugin sass css-minimizer-webpack-plugin css-loader sass-loader style-loader webpack-fix-style-only-entries');
+      runCommand('npm install --save-dev @epegzz/sass-vars-loader mini-css-extract-plugin sass css-minimizer-webpack-plugin css-loader sass-loader style-loader webpack-fix-style-only-entries');
     }
 
     if (opts.installing.tailwindPlugins) {
-      runCommand('npm install tailwindcss autoprefixer css-loader css-minimizer-webpack-plugin mini-css-extract-plugin postcss-import postcss-loader webpack-fix-style-only-entries');
+      runCommand('npm install --save-dev autoprefixer css-loader css-minimizer-webpack-plugin mini-css-extract-plugin postcss-import postcss-loader webpack-fix-style-only-entries');
+      runCommand('npm install tailwindcss');
     }
 
     if (opts.installing.svgsprite) {
-      runCommand('npm install github:cascornelissen/svg-spritemap-webpack-plugin#pull/210/head');
+      runCommand('npm install --save-dev github:cascornelissen/svg-spritemap-webpack-plugin#pull/210/head');
     }
   }
 
@@ -74,7 +75,7 @@ function installPackages(opts) {
   }
 
   if (opts.installing.preCommitHook) {
-    runCommand('npm install husky --save-dev');
+    runCommand('npm install --save-dev husky');
   }
 
   // vue adds things to the package json that will need installing

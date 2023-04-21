@@ -33,3 +33,4 @@ Homestead.json
 .phpunit.result.cache
 /public
 /dist
+_tokens.scss
