@@ -6,6 +6,21 @@ const CopyPlugin = require("copy-webpack-plugin");
 ::CSS_REQUIRES::
 ::SPRITE_REQUIRES::
 
+import feConfig from './::FOLDER_PREFIX::frontend/frontend.config.json';
+
+let breakpoints = [];
+if (feConfig.structure && feConfig.structure.breakpoints) {
+    for (const [key, value] of Object.entries(feConfig.structure.breakpoints)) {
+        breakpoints.push({ name: key, start: value });
+    }
+    breakpoints = breakpoints.sort(
+        (a, b) => parseInt(a.start) - parseInt(b.start)
+    );
+    breakpoints = breakpoints.map((a) => a.name);
+}
+
+const structure = feConfig.structure;
+
 const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
@@ -31,7 +46,9 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.MODE': JSON.stringify(devMode ? 'development' : 'production')
+      'process.env.MODE': JSON.stringify(devMode ? 'development' : 'production'),
+      'process.env.BREAKPOINTS': JSON.stringify(breakpoints),
+      'process.env.STRUCTURE': JSON.stringify(structure),
     }),
     new WebpackManifestPlugin({
       fileName: 'manifest.json',
