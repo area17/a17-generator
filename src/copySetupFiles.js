@@ -5,6 +5,7 @@ import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
+import copyFile from './copyFile.js';
 import runCommand from './runCommand.js';
 import generateWebpackConfig from './generateWebpackConfig.js';
 import generateViteConfig from './generateViteConfig.js';
@@ -12,22 +13,6 @@ import generateReadme from './generateReadme.js';
 import libs from './libs.js';
 
 const generatorPath = path.resolve(dirname(fileURLToPath(import.meta.url)), '../');
-
-const copyFile = (filePath, targetPath = './') => {
-  const fileName = path.basename(filePath);
-  console.log(chalk.gray(`Copying ${ fileName }`));
-  try {
-    if (fs.existsSync(filePath)) {
-      fs.copyFileSync(filePath, path.resolve(targetPath, fileName));
-    } else {
-      console.log(`Error: ${ filePath } doesn't exist`);
-    }
-  } catch(err) {
-    console.log(`Error copying ${ filePath }`);
-    console.error(err);
-  }
-};
-
 
 const copySetupFiles = (opts, appName) => {
   const folderStructurePrefix = opts.installing.laravel ? 'resources/' : '';
@@ -89,7 +74,7 @@ const copySetupFiles = (opts, appName) => {
 
     console.log(chalk.gray(`Set up default index file`));
     fs.mkdirSync(path.resolve(process.cwd(), 'public'));
-    copyFile(path.resolve(generatorPath, 'core_files/vite/index.html'), 'frontend');
+    copyFile(path.resolve(generatorPath, 'core_files/vite/index.html'), `${ folderStructurePrefix }frontend`);
 
     if (!opts.installing.behaviors) {
       console.log(chalk.gray(`Generating empty application.js`));
@@ -158,9 +143,8 @@ const copySetupFiles = (opts, appName) => {
     const selectedStyling = libs.styling[opts.styling];
     if (selectedStyling.files && selectedStyling.files.length) {
       console.log(chalk.yellow(`Copy ${ selectedStyling.name } set up files`));
-      const targetPath = opts.installing.folderStructure ? `${ folderStructurePrefix }frontend` : './';
       selectedStyling.files.forEach(file => {
-        copyFile(file, targetPath);
+        copyFile(file, './');
       });
     }
 
@@ -174,9 +158,10 @@ const copySetupFiles = (opts, appName) => {
       console.log(chalk.gray(`Adding an application.css file`));
       fs.copySync(path.resolve(generatorPath, 'core_files/tailwindPlugins'), `${ folderStructurePrefix }frontend/css`, { overwrite: false });
       console.log(chalk.gray(`Update tailwind plugin require`));
-      let tailwindConfig = fs.readFileSync(`${ folderStructurePrefix }frontend/tailwind.config.js`, { encoding:'utf8' } );
+      let tailwindConfig = fs.readFileSync(`${ folderStructurePrefix }tailwind.config.js`, { encoding:'utf8' } );
       tailwindConfig = tailwindConfig.replace(/require\('\.\.\/index'\)/, `require('@area17/a17-tailwind-plugins')`);
-      fs.writeFileSync(`${ folderStructurePrefix }frontend/tailwind.config.js`, tailwindConfig, { encoding: "utf8" });
+      tailwindConfig = tailwindConfig.replace(/content: \['\.\/docs\/\*\*\/\*\.html', '\.\/docs\/\*\.html'\],/, `content: ['./${ folderStructurePrefix }frontend/*.html', './resources/views/**/*.*', './public/*.*', './${ folderStructurePrefix }frontend/css/tailwind.purge.safelist.txt'],`);
+      fs.writeFileSync(`${ folderStructurePrefix }tailwind.config.js`, tailwindConfig, { encoding: "utf8" });
     }
   }
 
@@ -185,37 +170,40 @@ const copySetupFiles = (opts, appName) => {
     console.log(chalk.gray(`Adding test SVG file`));
     fs.ensureDirSync(`${ folderStructurePrefix }frontend/svg`);
     copyFile(path.resolve(generatorPath, 'core_files/svgsprite/test.svg'), `${ folderStructurePrefix }frontend/svg`);
-    console.log(chalk.gray(`Generating placeholder sprite.css file`));
-    if (opts.installing.scssUtilities) {
-      fs.ensureDirSync(`${ folderStructurePrefix }frontend/scss`);
-      try {
-        fs.writeFileSync(`${ folderStructurePrefix }frontend/scss/sprite.css`, '');
-      } catch(err) {
-        console.log(`Error generating sprite.css`);
-        console.error(err);
-      }
-    } else {
-      fs.ensureDirSync(`${ folderStructurePrefix }frontend/css`);
-      try {
-        fs.writeFileSync(`${ folderStructurePrefix }frontend/css/sprite.css`, '');
-      } catch(err) {
-        console.log(`Error generating sprite.css`);
-        console.error(err);
-      }
-    }
 
-    if (opts.installing.scssUtilities) {
-      console.log(chalk.gray(`Linking placeholder sprite.css file inside application.scss`));
-      let applicationScss = fs.readFileSync(`${ folderStructurePrefix }frontend/scss/application.scss`, { encoding:'utf8' } );
-      applicationScss += `\n@import 'sprite';`;
-      fs.writeFileSync(`${ folderStructurePrefix }frontend/scss/application.scss`, applicationScss, { encoding: "utf8" });
-    }
+    if (opts.installing.webpack) {
+      console.log(chalk.gray(`Generating placeholder sprite.css file`));
+      if (opts.installing.scssUtilities) {
+        fs.ensureDirSync(`${ folderStructurePrefix }frontend/scss`);
+        try {
+          fs.writeFileSync(`${ folderStructurePrefix }frontend/scss/sprite.css`, '');
+        } catch(err) {
+          console.log(`Error generating sprite.css`);
+          console.error(err);
+        }
+      } else {
+        fs.ensureDirSync(`${ folderStructurePrefix }frontend/css`);
+        try {
+          fs.writeFileSync(`${ folderStructurePrefix }frontend/css/sprite.css`, '');
+        } catch(err) {
+          console.log(`Error generating sprite.css`);
+          console.error(err);
+        }
+      }
 
-    if (opts.installing.tailwindPlugins) {
-      console.log(chalk.gray(`Linking placeholder sprite.css file inside tailwind base.css`));
-      let baseCss = fs.readFileSync(`${ folderStructurePrefix }frontend/css/_base.css`, { encoding:'utf8' } );
-      baseCss += `\n@import 'sprite';`;
-      fs.writeFileSync(`${ folderStructurePrefix }frontend/css/_base.css`, baseCss, { encoding: "utf8" });
+      if (opts.installing.scssUtilities) {
+        console.log(chalk.gray(`Linking placeholder sprite.css file inside application.scss`));
+        let applicationScss = fs.readFileSync(`${ folderStructurePrefix }frontend/scss/application.scss`, { encoding:'utf8' } );
+        applicationScss += `\n@import 'sprite';`;
+        fs.writeFileSync(`${ folderStructurePrefix }frontend/scss/application.scss`, applicationScss, { encoding: "utf8" });
+      }
+
+      if (opts.installing.tailwindPlugins) {
+        console.log(chalk.gray(`Linking placeholder sprite.css file inside tailwind base.css`));
+        let baseCss = fs.readFileSync(`${ folderStructurePrefix }frontend/css/_base.css`, { encoding:'utf8' } );
+        baseCss += `\n@import 'sprite';`;
+        fs.writeFileSync(`${ folderStructurePrefix }frontend/css/_base.css`, baseCss, { encoding: "utf8" });
+      }
     }
   }
 

@@ -23,9 +23,9 @@ const generateViteConfig = (opts, generatorPath) => {
 
   if (opts.installing.svgsprite) {
     viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)::SPRITE_IMPORT::/, `\nimport ViteSvgSpriteWrapper from 'vite-svg-sprite-wrapper';`);
-    viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)    ::SPRITE_PLUGINS::/, `\n    ViteSvgSpriteWrapper({
+    viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)        ::SPRITE_PLUGINS::/, `\n    ViteSvgSpriteWrapper({
           icons: resolve(__dirname, '${ folderStructurePrefix }frontend/svg/*.svg'),
-          outputDir: resolve(__dirname, './public/'),
+          outputDir: resolve(__dirname, './${ opts.installing.laravel ? './public' : './frontend' }/'),
           sprite: {
             mode: {
               symbol: {
@@ -58,11 +58,12 @@ const generateViteConfig = (opts, generatorPath) => {
         }),`);
   } else {
     viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)::SPRITE_IMPORT::/, '');
-    viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)    ::SPRITE_PLUGINS::/, '');
+    viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)        ::SPRITE_PLUGINS::/, '');
   }
 
   if (opts.installing.laravel) {
-    viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)    ::LARAVEL_PLUGINS::/, `\n    laravel({
+    viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)::LARAVEL_IMPORT::/, `\nimport laravel from 'laravel-vite-plugin';`);
+    viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)        ::LARAVEL_PLUGINS::/, `\n    laravel({
             input: [
                 resolve(__dirname, '${ folderStructurePrefix }/frontend/css/application.css'),
                 resolve(__dirname, '${ folderStructurePrefix }/frontend/js/application.js')
@@ -70,7 +71,8 @@ const generateViteConfig = (opts, generatorPath) => {
             refresh: true
         }),`);
   } else {
-    viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)    ::LARAVEL_PLUGINS::/, '');
+    viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)::LARAVEL_IMPORT::/, ``);
+    viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)        ::LARAVEL_PLUGINS::/, '');
   }
 
   return viteConfig;

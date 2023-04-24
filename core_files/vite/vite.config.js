@@ -9,7 +9,7 @@ import eslintPlugin from 'vite-plugin-eslint';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 ::SPRITE_IMPORT::
 
-import feConfig from './::FOLDER_PREFIX::frontend/frontend.config.json';
+import feConfig from './frontend.config.json';
 
 let breakpoints = [];
 if (feConfig.structure && feConfig.structure.breakpoints) {

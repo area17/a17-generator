@@ -2,9 +2,14 @@ import child_process from 'child_process';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import path from 'path';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
+import copyFile from './copyFile.js';
 import runCommand from './runCommand.js';
 import libs from './libs.js';
+
+const generatorPath = path.resolve(dirname(fileURLToPath(import.meta.url)), '../');
 
 const installPackage = (cmd) => {
   if (typeof cmd === 'string') {
@@ -65,9 +70,33 @@ function installPackages(opts) {
     }
   }
 
+  if (opts.installing.vite) {
+    console.log(chalk.yellow(`Installing Vite`));
+    runCommand('npm install --save-dev vite vite-plugin-dynamic-import vite-plugin-environment vite-plugin-eslint vite-plugin-static-copy');
+
+    if (opts.installing.laravel) {
+      runCommand('npm install --save-dev laravel-vite-plugin');
+    }
+
+    if (opts.installing.tailwindPlugins) {
+      runCommand('npm install tailwindcss');
+    }
+
+    if (opts.installing.svgsprite) {
+      // uses `file:vite-svg-sprite-wrapper-1.0.3.tgz` until
+      // https://github.com/vshepel/vite-svg-sprite-wrapper/pull/2
+      // is merged
+      //runCommand('npm install --save-dev vite-svg-sprite-wrapper');
+      copyFile(path.resolve(generatorPath, 'core_files/vite/vite-svg-sprite-wrapper-1.0.3.tgz'), `./`);
+      runCommand('npm install --save-dev vite-svg-sprite-wrapper-1.0.3.tgz');
+    }
+  }
+
   if (opts.lintFiles && opts.installing.linters) {
     console.log(chalk.yellow(`Installing Linters`));
-    runCommand(`npm install --save-dev stylelint stylelint-config-recommended stylelint-order stylelint-config-prettier stylelint-prettier lint-staged eslint prettier eslint-plugin-prettier eslint-config-prettier @prettier/plugin-php`);
+    // `stylelint-config-prettier` removed:
+    // https://stylelint.io/migration-guide/to-15/#deprecated-stylistic-rules
+    runCommand(`npm install --save-dev stylelint stylelint-config-recommended stylelint-order stylelint-prettier lint-staged eslint prettier eslint-plugin-prettier eslint-config-prettier @prettier/plugin-php`);
 
     if (!opts.installing.tailwindPlugins) {
       runCommand(`npm install --save-dev stylelint-scss`);
