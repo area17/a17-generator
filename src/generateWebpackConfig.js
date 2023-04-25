@@ -57,7 +57,7 @@ const DartScss = require('sass');`);
   if (opts.installing.tailwindPlugins) {
     webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)::CSS_REQUIRES::/, `\nconst MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');`);
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');`);
     webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)    ::CSS_ENTRY::/, `\n    'css/application': './${ folderStructurePrefix }frontend/css/application.css',`);
     webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)      ::CSS_MINIMIZER::/, `\n      new CssMinimizerPlugin({
       minimizerOptions: {
@@ -70,7 +70,7 @@ const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');`);
       },
       minify: CssMinimizerPlugin.cssoMinify,
     }),`);
-    webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)    ::CSS_PLUGINS::/, `\n    new FixStyleOnlyEntriesPlugin(),
+    webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)    ::CSS_PLUGINS::/, `\n    new RemoveEmptyScriptsPlugin({ verbose: true }),
     new MiniCssExtractPlugin({
       filename: devMode ? '[name].css' : '[name].[contenthash].css',
     }),`);
@@ -92,7 +92,7 @@ const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');`);
             postcssOptions: {
               plugins: [
                 require('postcss-import'),
-                require('tailwindcss')('./${ folderStructurePrefix }frontend/tailwind.config.js'),
+                require('tailwindcss')('./tailwind.config.js'),
                 require("autoprefixer"),
               ]
             }
