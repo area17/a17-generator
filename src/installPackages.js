@@ -102,8 +102,14 @@ function installPackages(opts) {
     // https://stylelint.io/migration-guide/to-15/#deprecated-stylistic-rules
     runCommand(`npm install --save-dev stylelint stylelint-config-recommended stylelint-order stylelint-prettier lint-staged eslint prettier eslint-plugin-prettier eslint-config-prettier @prettier/plugin-php`);
 
+    if (opts.installing.laravel) {
+      runCommand(`npm install --save-dev @shufo/prettier-plugin-blade`);
+    }
+
     if (!opts.installing.tailwindPlugins) {
       runCommand(`npm install --save-dev stylelint-scss`);
+    } else {
+      runCommand('npm install --save-dev prettier-plugin-tailwindcss');
     }
   }
 

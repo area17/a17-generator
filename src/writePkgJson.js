@@ -43,17 +43,32 @@ const writePkgJson = (appName, opts) => {
 
     if (opts.lintFiles && opts.installing.linters) {
       packageJson.scripts = packageJson.scripts || {};
-      packageJson.scripts.eslint = `npx eslint $(git diff --name-only HEAD | xargs)`;
-      packageJson.scripts.prettier = `prettier --list-different $(git diff --name-only HEAD | xargs)`;
-      packageJson.scripts.stylelint = `npx stylelint $(git diff --name-only HEAD | xargs)`;
+      // packageJson.scripts.eslint = `npx eslint $(git diff --name-only HEAD | xargs)`;
+      // packageJson.scripts.prettier = `prettier --list-different $(git diff --name-only HEAD | xargs)`;
+      // packageJson.scripts.stylelint = `npx stylelint $(git diff --name-only HEAD | xargs)`;
 
-      packageJson.scripts['eslint:all'] = `npx eslint "${ folderStructurePrefix }/**/*.js"`;
-      packageJson.scripts['prettier:all'] = `prettier --list-different "**/*.*"`;
-      packageJson.scripts['stylelint:all'] = `npx stylelint "${ folderStructurePrefix }/**/*.(css|scss|sass)"`;
+      // packageJson.scripts['eslint:all'] = `npx eslint "${ folderStructurePrefix }/**/*.js"`;
+      // packageJson.scripts['prettier:all'] = `prettier --list-different "**/*.*"`;
+      // packageJson.scripts['stylelint:all'] = `npx stylelint "${ folderStructurePrefix }/**/*.(css|scss|sass)"`;
 
       packageJson.scripts.lint = `npm run eslint && npm run stylelint && npm run prettier`;
       packageJson.scripts['lint:all'] = `npm run eslint:all && npm run stylelint:all && npm run prettier:all`;
       packageJson.scripts['lint:staged'] = `lint-staged`;
+
+      packageJson.scripts['lint:js'] = 'sh tools/linters.sh eslint';
+      packageJson.scripts['lint:styles'] = 'sh tools/linters.sh stylelint';
+      packageJson.scripts['precommit'] = 'lint-staged';
+
+      packageJson.scripts['prettier:check'] = 'npx prettier --list-different --check $(git diff --name-only HEAD | xargs)';
+      packageJson.scripts['prettier:write'] = 'npx prettier --list-different --write $(git diff --name-only HEAD | xargs)';
+
+      packageJson['lint-staged'] = packageJson['lint-staged'] || {};
+      packageJson['lint-staged']['package.json'] = 'sort-package-json';
+      packageJson['lint-staged']['**/*'] = 'sh tools/linters.sh conflict-markers';
+      packageJson['lint-staged']['**/*.{js,jsx,ts,tsx,vue}'] = 'sh tools/linters.sh eslint';
+      packageJson['lint-staged']['**/*.{js,jsx,ts,tsx,html,css,php,vue}'] = 'sh tools/linters.sh prettify';
+      packageJson['lint-staged']['**/*.blade.php'] = 'sh tools/linters.sh blast';
+      packageJson['lint-staged']['**/*.php'] = 'sh tools/linters.sh phpstan';
     }
 
     if (opts.installing.preCommitHook) {
@@ -65,6 +80,7 @@ const writePkgJson = (appName, opts) => {
     packageJson.engines.node = process.version.replace(/v/i, '');
     packageJson.engines.npm = runCommand('npm -v');
     packageJson.engines.npm = packageJson.engines.npm.replace(/\n/i, '');
+    packageJson.engines.yarn = 'please-use-npm';
 
     fs.writeFileSync(
       path.join(process.cwd(),'package.json'),

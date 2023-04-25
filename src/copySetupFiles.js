@@ -89,6 +89,12 @@ const copySetupFiles = (opts, appName) => {
     } else {
       console.log(chalk.gray(`.nvmrc file already exists, skipping generation`));
     }
+    if(!fs.existsSync(path.join(process.cwd(),'.npmrc'))) {
+      console.log(chalk.yellow(`Generating .npmrc file`));
+      runCommand('"engine-strict=true" > .npmrc');
+    } else {
+      console.log(chalk.gray(`.npmrc file already exists, skipping generation`));
+    }
   }
 
   if (opts.dotFiles) {
