@@ -32,7 +32,7 @@ Requires Node v${ nodeVersion }
   }
 
   if (opts.installing.vite || opts.installing.webpack) {
-    readme += '\n### Assets';
+    readme += '\n\n### Assets';
     readme += `\nAny assets stored in \`${ folderStructurePrefix }frontend/fonts\` and \`${ folderStructurePrefix }frontend/img\` will be copied to your assets folder.`;
     if (opts.installing.vite) {
       readme += `  See \`vite.config.js\` for details.`;

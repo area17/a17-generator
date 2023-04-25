@@ -75,31 +75,31 @@ const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');`);
       filename: devMode ? '[name].css' : '[name].[contenthash].css',
     }),`);
     webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)      ::CSS_MODULES::/, `\n      {
-      test: /application\.css$/,
-      use: [
-        {
-          loader: MiniCssExtractPlugin.loader,
-        },
-        {
-          loader: 'css-loader',
-          options: {
-            importLoaders: 1,
-          }
-        },
-        {
-          loader: 'postcss-loader',
-          options: {
-            postcssOptions: {
-              plugins: [
-                require('postcss-import'),
-                require('tailwindcss')('./tailwind.config.js'),
-                require("autoprefixer"),
-              ]
+        test: /application.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  require('postcss-import'),
+                  require('tailwindcss')('./tailwind.config.js'),
+                  require("autoprefixer"),
+                ]
+              }
             }
           }
-        }
-      ]
-    },`);
+        ]
+      },`);
   }
 
   if (!opts.installing.scssUtilities && !opts.installing.tailwindPlugins) {

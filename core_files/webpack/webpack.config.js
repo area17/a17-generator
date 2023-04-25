@@ -10,13 +10,13 @@ const feConfig = require('./frontend.config.json');
 
 let breakpoints = [];
 if (feConfig.structure && feConfig.structure.breakpoints) {
-    for (const [key, value] of Object.entries(feConfig.structure.breakpoints)) {
-        breakpoints.push({ name: key, start: value });
-    }
-    breakpoints = breakpoints.sort(
-        (a, b) => parseInt(a.start) - parseInt(b.start)
-    );
-    breakpoints = breakpoints.map((a) => a.name);
+  for (const [key, value] of Object.entries(feConfig.structure.breakpoints)) {
+    breakpoints.push({ name: key, start: value });
+  }
+  breakpoints = breakpoints.sort(
+    (a, b) => parseInt(a.start) - parseInt(b.start)
+  );
+  breakpoints = breakpoints.map((a) => a.name);
 }
 
 const structure = feConfig.structure;
