@@ -9,6 +9,14 @@ const generateViteConfig = (opts, generatorPath) => {
   viteConfig = viteConfig.replace(/::FOLDER_PREFIX::/ig, folderStructurePrefix);
 
   console.log(chalk.gray(`Update vite config options`));
+  if (opts.installing.linters) {
+    viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)::ESLINT_IMPORT::/, `\nimport eslintPlugin from 'vite-plugin-eslint';`);
+    viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)        ::ESLINT_PLUGINS::/, `\n        eslintPlugin(),`);
+  } else {
+    viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)::ESLINT_IMPORT::/, '');
+    viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)        ::ESLINT_PLUGINS::/, ``);
+  }
+
   if (opts.installing.tailwindPlugins) {
     viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)::TAILWIND_IMPORT::/, `\nimport tailwindcss from 'tailwindcss';`);
     viteConfig = viteConfig.replace(/(?:\r\n|\r|\n)    ::TAILWIND_CSS::/, `\n    css: {

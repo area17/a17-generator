@@ -94,7 +94,7 @@ const applicationOptions = () => {
   if (!opts.installing.vue) {
     console.log(chalk.cyan(`\nAdd basic task runner setup?`));
     console.log(chalk.gray(`(will also add a default 'frontend' folder)`));
-    const taskRunners = ['Vite', 'Webpack'];
+    const taskRunners = ['Webpack', 'Vite'];
     opts.taskRunners = readlineSync.keyInSelect(taskRunners, null,
       { cancel: 'None' }
     );
@@ -103,8 +103,8 @@ const applicationOptions = () => {
     } else {
       console.log(chalk.gray(`No task runner selected`));
     }
-    opts.installing.vite = opts.taskRunners === 0;
-    opts.installing.webpack = opts.taskRunners === 1;
+    opts.installing.webpack = opts.taskRunners === 0;
+    opts.installing.vite = opts.taskRunners === 1;
 
     if (opts.installing.webpack || opts.installing.vite) {
       opts.installing.folderStructure = true;

@@ -57,7 +57,7 @@ function installPackages(opts) {
     runCommand('npm install --save-dev webpack webpack-cli webpack-dev-server webpack-watch-files-plugin copy-webpack-plugin terser-webpack-plugin webpack-manifest-plugin');
 
     if (opts.installing.scssUtilities) {
-      runCommand('npm install --save-dev @epegzz/sass-vars-loader mini-css-extract-plugin sass css-minimizer-webpack-plugin css-loader sass-loader style-loader webpack-fix-style-only-entries');
+      runCommand('npm install --save-dev @epegzz/sass-vars-loader mini-css-extract-plugin sass css-minimizer-webpack-plugin css-loader sass-loader style-loader webpack-remove-empty-scripts');
     }
 
     if (opts.installing.tailwindPlugins) {
@@ -80,6 +80,10 @@ function installPackages(opts) {
 
     if (opts.installing.tailwindPlugins) {
       runCommand('npm install tailwindcss');
+    }
+
+    if (opts.installing.scssUtilities) {
+      runCommand('npm install --save-dev github:area17/json-to-scss concurrently nodemon');
     }
 
     if (opts.installing.svgsprite) {

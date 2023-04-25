@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import dynamicImport from 'vite-plugin-dynamic-import';
 import environmentPlugin from 'vite-plugin-environment';
-import eslintPlugin from 'vite-plugin-eslint';
+::ESLINT_IMPORT::
 ::LARAVEL_IMPORT::
 ::TAILWIND_IMPORT::
 import { viteStaticCopy } from 'vite-plugin-static-copy';
@@ -27,7 +27,7 @@ const structure = feConfig.structure;
 export default ({ mode }) => defineConfig({
     plugins: [
         dynamicImport(),
-        eslintPlugin(),
+        ::ESLINT_PLUGINS::
         environmentPlugin({
             MODE: mode,
             BREAKPOINTS: JSON.stringify(breakpoints),

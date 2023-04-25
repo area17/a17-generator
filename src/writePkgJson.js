@@ -3,6 +3,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import readlineSync from 'readline-sync';
 
+import runCommand from './runCommand.js';
 import libs from './libs.js';
 
 // Generate package.json file for the project
@@ -31,9 +32,9 @@ const writePkgJson = (appName, opts) => {
       if (opts.installing.scssUtilities) {
         packageJson.scripts.build = 'npm run tokens && vite build';
         packageJson.scripts.dev = 'npm run tokens && concurrently --raw --kill-others \"npm:dev:*\"';
-        packageJson.scripts['dev:tokens'] = 'npx nodemon --exitcrash --watch ./frontend.config.scss.json -e json --exec npm run tokens';
+        packageJson.scripts['dev:tokens'] = 'npx nodemon --exitcrash --watch ./frontend.config.json -e json --exec npm run tokens';
         packageJson.scripts['dev:vite'] = 'vite';
-        packageJson.scripts.tokens = 'node ./node_modules/.bin/json-to-scss frontend.config.scss.json ./frontend/scss/_tokens.scss --kv';
+        packageJson.scripts.tokens = 'node ./node_modules/.bin/json-to-scss frontend.config.json ./frontend/scss/_tokens.scss --kv';
       } else {
         packageJson.scripts.build = 'vite build';
         packageJson.scripts.dev = 'vite';
@@ -59,6 +60,11 @@ const writePkgJson = (appName, opts) => {
       packageJson.scripts = packageJson.scripts || {};
       packageJson.scripts.prepare = 'husky install';
     }
+
+    packageJson.engines = packageJson.engines || {};
+    packageJson.engines.node = process.version.replace(/v/i, '');
+    packageJson.engines.npm = runCommand('npm -v');
+    packageJson.engines.npm = packageJson.engines.npm.replace(/\n/i, '');
 
     fs.writeFileSync(
       path.join(process.cwd(),'package.json'),

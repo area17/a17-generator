@@ -61,7 +61,7 @@ const copySetupFiles = (opts, appName) => {
     }
 
     if (opts.installing.scssUtilities) {
-      copyFile(path.resolve(generatorPath, 'core_files/scssUtilities/frontend.config.json'), `${ folderStructurePrefix }frontend`);
+      copyFile(path.resolve(generatorPath, 'core_files/scssUtilities/frontend.config.json'), `./`);
     }
   }
 
@@ -79,10 +79,6 @@ const copySetupFiles = (opts, appName) => {
     if (!opts.installing.behaviors) {
       console.log(chalk.gray(`Generating empty application.js`));
       fs.ensureFileSync(path.resolve(process.cwd(), `${ folderStructurePrefix }frontend/js/application.js`));
-    }
-
-    if (opts.installing.scssUtilities) {
-      copyFile(path.resolve(generatorPath, 'core_files/scssUtilities/frontend.config.json'), `${ folderStructurePrefix }frontend`);
     }
   }
 
@@ -152,6 +148,18 @@ const copySetupFiles = (opts, appName) => {
       console.log(chalk.gray(`Adding an application.scss file`));
       fs.ensureDirSync(`${ folderStructurePrefix }frontend/scss`);
       copyFile(path.resolve(generatorPath, 'core_files/scssUtilities/application.scss'), `${ folderStructurePrefix }frontend/scss`);
+
+      if (opts.installing.vite) {
+        copyFile(path.resolve(generatorPath, 'core_files/scssUtilities/frontend.config.json'), `./`);
+        console.log(chalk.gray(`Using application.scss in index.html`));
+        let indexHTML = fs.readFileSync(`${ folderStructurePrefix }frontend/index.html`, { encoding:'utf8' } );
+        indexHTML = indexHTML.replace(/href="\/css\/application\.css"/, `href="/scss/application.scss"`);
+        fs.writeFileSync(`${ folderStructurePrefix }frontend/index.html`, indexHTML, { encoding: "utf8" });
+        console.log(chalk.gray(`Importing tokens into application.scss`));
+        let applicationScss = fs.readFileSync(`${ folderStructurePrefix }frontend/scss/application.scss`, { encoding:'utf8' } );
+        applicationScss = `@import '_tokens';\n${ applicationScss }`;
+        fs.writeFileSync(`${ folderStructurePrefix }frontend/scss/application.scss`, applicationScss, { encoding: "utf8" });
+      }
     }
 
     if (opts.installing.tailwindPlugins) {

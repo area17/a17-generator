@@ -12,7 +12,7 @@ const generateWebpackConfig = (opts, generatorPath) => {
   if (opts.installing.scssUtilities) {
     webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)::CSS_REQUIRES::/, `\nconst CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 const DartScss = require('sass');`);
     webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)    ::CSS_ENTRY::/, `\n    'css/application': './${ folderStructurePrefix }frontend/scss/application.scss',`);
     webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)      ::CSS_MINIMIZER::/, `\n      new CssMinimizerPlugin({
@@ -26,7 +26,7 @@ const DartScss = require('sass');`);
       },
       minify: CssMinimizerPlugin.cssoMinify,
     }),`);
-    webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)    ::CSS_PLUGINS::/, `\n    new FixStyleOnlyEntriesPlugin(),
+    webpackConfig = webpackConfig.replace(/(?:\r\n|\r|\n)    ::CSS_PLUGINS::/, `\n    new RemoveEmptyScriptsPlugin({ verbose: true }),
   new MiniCssExtractPlugin({
     filename: devMode ? '[name].css' : '[name].[contenthash].css',
   }),`);
@@ -46,7 +46,7 @@ const DartScss = require('sass');`);
           options: {
             syntax: 'scss',
             files: [
-              path.resolve(__dirname, '${ folderStructurePrefix }frontend', 'frontend.config.json')
+              path.resolve(__dirname, './', 'frontend.config.json')
             ]
           }
         },

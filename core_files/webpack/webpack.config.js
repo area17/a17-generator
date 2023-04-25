@@ -6,7 +6,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 ::CSS_REQUIRES::
 ::SPRITE_REQUIRES::
 
-import feConfig from './::FOLDER_PREFIX::frontend/frontend.config.json';
+const feConfig = require('./frontend.config.json');
 
 let breakpoints = [];
 if (feConfig.structure && feConfig.structure.breakpoints) {
@@ -83,6 +83,9 @@ module.exports = {
     // devMiddleware: {
     //   publicPath: '/',
     // },
-    //watchFiles: ['./public/*.html'],
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
+    watchFiles: ['./public/*.html'],
   },
 };

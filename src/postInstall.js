@@ -70,12 +70,12 @@ function postInstall(opts, appName) {
   }
 
   if (opts.installing.vite || opts.installing.webpack) {
-    console.log(chalk.white(`  Any assets stored in \`${ folderStructurePrefix }frontend/fonts\` and \`${ folderStructurePrefix }frontend/img\` will be copied to your assets folder.`));
+    console.log(`\n  Any assets stored in \`${ folderStructurePrefix }frontend/fonts\` and \`${ folderStructurePrefix }frontend/img\` will be copied to your assets folder.`);
     if (opts.installing.vite) {
-      console.log(`  See \`vite.config.js\` for details.`);
+      console.log(chalk.white(`  See \`vite.config.js\` for details.`));
     }
     if (opts.installing.webpack) {
-      console.log(`  See \`webpack.config.js\` for details.`);
+      console.log(chalk.white(`  See \`webpack.config.js\` for details.`));
     }
   }
 
