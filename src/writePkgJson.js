@@ -51,9 +51,9 @@ const writePkgJson = (appName, opts) => {
       // packageJson.scripts['prettier:all'] = `prettier --list-different "**/*.*"`;
       // packageJson.scripts['stylelint:all'] = `npx stylelint "${ folderStructurePrefix }/**/*.(css|scss|sass)"`;
 
-      packageJson.scripts.lint = `npm run eslint && npm run stylelint && npm run prettier`;
-      packageJson.scripts['lint:all'] = `npm run eslint:all && npm run stylelint:all && npm run prettier:all`;
-      packageJson.scripts['lint:staged'] = `lint-staged`;
+      //packageJson.scripts.lint = `npm run eslint && npm run stylelint && npm run prettier`;
+      //packageJson.scripts['lint:all'] = `npm run eslint:all && npm run stylelint:all && npm run prettier:all`;
+      //packageJson.scripts['lint:staged'] = `lint-staged`;
 
       packageJson.scripts['lint:js'] = 'sh tools/linters.sh eslint';
       packageJson.scripts['lint:styles'] = 'sh tools/linters.sh stylelint';

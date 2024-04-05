@@ -91,7 +91,7 @@ const copySetupFiles = (opts, appName) => {
     }
     if(!fs.existsSync(path.join(process.cwd(),'.npmrc'))) {
       console.log(chalk.yellow(`Generating .npmrc file`));
-      runCommand('"engine-strict=true" > .npmrc');
+      runCommand('npm -v > .npmrc');
     } else {
       console.log(chalk.gray(`.npmrc file already exists, skipping generation`));
     }
@@ -124,11 +124,11 @@ const copySetupFiles = (opts, appName) => {
       if (!fs.existsSync('package.json')) {
         console.log(chalk.gray(`warn user no package.json - will need to manually add Husky prepare script`));
       }
-      runCommand(`npx husky add .husky/pre-commit "npm run lint:staged"`);
-      console.log(chalk.gray(`pre-commit hook added`));
-      runCommand(`git add .husky/pre-commit`);
-      runCommand(`git commit -m "adds husky pre-commit hook" --no-verify`);
-      console.log(chalk.gray(`Committing .husky/pre-commit`));
+      //runCommand(`npx husky add .husky/pre-commit "npm run lint:staged"`);
+      //console.log(chalk.gray(`pre-commit hook added`));
+      //runCommand(`git add .husky/pre-commit`);
+      //runCommand(`git commit -m "adds husky pre-commit hook" --no-verify`);
+      //console.log(chalk.gray(`Committing .husky/pre-commit`));
     } else {
       console.log(chalk.gray(`warn user git not initiated - will need to set up Husky`));
     }

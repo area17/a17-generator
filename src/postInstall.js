@@ -165,8 +165,8 @@ function postInstall(opts, appName) {
     if (!fs.existsSync('.git')) {
       console.log(chalk.red(`  Your app currently isn't under Git source control.\n  When you init git, you will need to add the Husky pre-commit hook to your repo:`));
       console.log(chalk.white(`      npx husky install
-      npm pkg set scripts.prepare "husky install"
-      npx husky add .husky/pre-commit "npm run lint:staged"
+      npm pkg set scripts.prepare="husky install"
+      npx husky add .husky/pre-commit "npx lint-staged"
       git add .husky/pre-commit
       git commit -m "adds husky pre-commit hook"`));
     }

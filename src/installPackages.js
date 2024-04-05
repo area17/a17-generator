@@ -100,7 +100,7 @@ function installPackages(opts) {
     console.log(chalk.yellow(`Installing Linters`));
     // `stylelint-config-prettier` removed:
     // https://stylelint.io/migration-guide/to-15/#deprecated-stylistic-rules
-    runCommand(`npm install --save-dev stylelint stylelint-config-recommended stylelint-order stylelint-prettier lint-staged eslint prettier eslint-plugin-prettier eslint-config-prettier @prettier/plugin-php`);
+    runCommand(`npm install --save-dev stylelint stylelint-config-recommended stylelint-order stylelint-prettier lint-staged eslint prettier eslint-plugin-prettier eslint-config-prettier eslint-plugin-unused-imports eslint-plugin-simple-import-sort @prettier/plugin-php`);
 
     if (opts.installing.laravel) {
       runCommand(`npm install --save-dev @shufo/prettier-plugin-blade`);
