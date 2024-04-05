@@ -1,1 +1,40 @@
 @import '@area17/scss-utilities/a17-scss-utilities';
+
+.absolute {
+  position: absolute;
+}
+
+.copy {
+  max-width: 60%;
+
+  h2 {
+    @extend .f-h2;
+  }
+
+  h3 {
+    @extend .f-h3;
+    margin-top: rem-calc(40px);
+  }
+
+  p {
+    @extend .f-body;
+    margin-top: rem-calc(20px);
+  }
+}
+
+.w-60 {
+  width: rem-calc(60px);
+}
+
+.h-60 {
+  height: rem-calc(60px);
+}
+
+.py-60 {
+  padding-top: rem-calc(60px);
+  padding-bottom: rem-calc(60px);
+}
+
+.mt-20 {
+  margin-top: rem-calc(20px);
+}

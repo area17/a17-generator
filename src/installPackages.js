@@ -2,9 +2,14 @@ import child_process from 'child_process';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import path from 'path';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
+import copyFile from './copyFile.js';
 import runCommand from './runCommand.js';
 import libs from './libs.js';
+
+const generatorPath = path.resolve(dirname(fileURLToPath(import.meta.url)), '../');
 
 const installPackage = (cmd) => {
   if (typeof cmd === 'string') {
@@ -49,28 +54,67 @@ function installPackages(opts) {
 
   if (opts.installing.webpack) {
     console.log(chalk.yellow(`Installing Webpack`));
-    runCommand('npm install webpack webpack-cli webpack-dev-server webpack-watch-files-plugin copy-webpack-plugin terser-webpack-plugin webpack-manifest-plugin');
+    runCommand('npm install --save-dev webpack webpack-cli webpack-dev-server webpack-watch-files-plugin copy-webpack-plugin terser-webpack-plugin webpack-manifest-plugin');
 
     if (opts.installing.scssUtilities) {
-      runCommand('npm install @epegzz/sass-vars-loader mini-css-extract-plugin sass css-minimizer-webpack-plugin css-loader sass-loader style-loader webpack-fix-style-only-entries');
+      runCommand('npm install --save-dev @epegzz/sass-vars-loader mini-css-extract-plugin sass css-minimizer-webpack-plugin css-loader sass-loader style-loader webpack-remove-empty-scripts');
     }
 
     if (opts.installing.tailwindPlugins) {
-      runCommand('npm install tailwindcss autoprefixer css-loader css-minimizer-webpack-plugin mini-css-extract-plugin postcss-import postcss-loader webpack-fix-style-only-entries');
+      runCommand('npm install --save-dev autoprefixer css-loader css-minimizer-webpack-plugin mini-css-extract-plugin postcss-import postcss-loader webpack-remove-empty-scripts');
+      runCommand('npm install tailwindcss');
+    }
+
+    if (opts.installing.svgsprite) {
+      runCommand('npm install --save-dev github:cascornelissen/svg-spritemap-webpack-plugin#pull/210/head');
+    }
+  }
+
+  if (opts.installing.vite) {
+    console.log(chalk.yellow(`Installing Vite`));
+    runCommand('npm install --save-dev vite vite-plugin-dynamic-import vite-plugin-environment vite-plugin-eslint vite-plugin-static-copy');
+
+    if (opts.installing.laravel) {
+      runCommand('npm install --save-dev laravel-vite-plugin');
+    }
+
+    if (opts.installing.tailwindPlugins) {
+      runCommand('npm install tailwindcss');
+    }
+
+    if (opts.installing.scssUtilities) {
+      runCommand('npm install --save-dev github:area17/json-to-scss concurrently nodemon');
+    }
+
+    if (opts.installing.svgsprite) {
+      // uses `file:vite-svg-sprite-wrapper-1.0.3.tgz` until
+      // https://github.com/vshepel/vite-svg-sprite-wrapper/pull/2
+      // is merged
+      //runCommand('npm install --save-dev vite-svg-sprite-wrapper');
+      copyFile(path.resolve(generatorPath, 'core_files/vite/vite-svg-sprite-wrapper-1.0.3.tgz'), `./`);
+      runCommand('npm install --save-dev vite-svg-sprite-wrapper-1.0.3.tgz');
     }
   }
 
   if (opts.lintFiles && opts.installing.linters) {
     console.log(chalk.yellow(`Installing Linters`));
-    runCommand(`npm install --save-dev stylelint stylelint-config-recommended stylelint-order stylelint-config-prettier stylelint-prettier lint-staged eslint prettier eslint-plugin-prettier eslint-config-prettier @prettier/plugin-php`);
+    // `stylelint-config-prettier` removed:
+    // https://stylelint.io/migration-guide/to-15/#deprecated-stylistic-rules
+    runCommand(`npm install --save-dev stylelint stylelint-config-recommended stylelint-order stylelint-prettier lint-staged eslint prettier eslint-plugin-prettier eslint-config-prettier eslint-plugin-unused-imports eslint-plugin-simple-import-sort @prettier/plugin-php`);
+
+    if (opts.installing.laravel) {
+      runCommand(`npm install --save-dev @shufo/prettier-plugin-blade`);
+    }
 
     if (!opts.installing.tailwindPlugins) {
       runCommand(`npm install --save-dev stylelint-scss`);
+    } else {
+      runCommand('npm install --save-dev prettier-plugin-tailwindcss');
     }
   }
 
   if (opts.installing.preCommitHook) {
-    runCommand('npm install husky --save-dev');
+    runCommand('npm install --save-dev husky');
   }
 
   // vue adds things to the package json that will need installing

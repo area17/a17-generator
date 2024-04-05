@@ -11,3 +11,5 @@ vendor
 *.scss.map
 .DS_Store
 html4css.css
+resources/frontend/styles/vendor/**/*
+frontend/styles/vendor/**/*

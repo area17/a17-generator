@@ -16,3 +16,9 @@ vendor
 *.eot
 *.otf
 *.txt
+*.md
+*.lock
+*.svg
+.platform
+server.php
+bootstrap/*

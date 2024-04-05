@@ -10,3 +10,5 @@ vendor
 *.sass.map
 *.scss.map
 .DS_Store
+resources/frontend/scripts/vendor/**/*
+frontend/scripts/vendor/**/*

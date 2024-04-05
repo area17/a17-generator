@@ -7,7 +7,7 @@
   <title>AREA 17</title>
 
   <!-- head js - if supports JS modules - mustard pass-->
-  <script type="module">
+  <script>
     (function(d) {
       var de = d.documentElement;
       de.classList.remove('no-js');
@@ -27,7 +27,7 @@
   </script>
 
   <!-- site styles -->
-  <link href="/assets/css/application.css" rel="stylesheet" />
+  <link href="/css/application.css" rel="stylesheet" />
 
   <!-- icons -->
   <link rel="icon" href="path/to/favicon.ico">
@@ -81,7 +81,7 @@
     <!-- CONTENT -->
     <p>This is the default page viewed on initial run of <code>npm run dev</code> after running <code>A17 generator</code>. It contains the HTML from <a href="https://github.com/area17/html-boilerplate" target="_blank">A17 HTML Boilerplate</a>. You will want to configure your application Webpack dev server and delete this HTML. See <code>webpack.config.js</code>.</p>
     <div class="mt-20">
-      <svg aria-hidden="true" class="sprite-test">
+      <svg aria-hidden="true" class="w-60 h-60">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#sprite-test"></use>
       </svg>
     </div>
@@ -102,7 +102,7 @@
 </div>
 
 <!-- site JavaScript -->
-<script src="/assets/js/application.js" type="module"></script>
+<script src="/js/application.js" type="module"></script>
 
 <!-- mustard test fail JS -->
 <script nomodule>
@@ -123,7 +123,7 @@
     s = d.createElement('link');
     s.rel  = 'stylesheet';
     s.title = 'html4css';
-    s.href = '/assets/css/html4css.css';
+    s.href = '/css/html4css.css';
     h.appendChild(s);
 
     // bring in picture fill, if needed

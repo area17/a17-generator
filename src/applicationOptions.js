@@ -27,6 +27,8 @@ const applicationOptions = () => {
       linters: false,
       laravel: false,
       preCommitHook: false,
+      svgsprite: false,
+      vite: false,
     },
   };
 
@@ -90,13 +92,21 @@ const applicationOptions = () => {
   }
 
   if (!opts.installing.vue) {
-    console.log(chalk.cyan(`\nAdd basic webpack setup?`));
+    console.log(chalk.cyan(`\nAdd basic task runner setup?`));
     console.log(chalk.gray(`(will also add a default 'frontend' folder)`));
-    opts.installing.webpack = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
-    opts.installing.webpack = opts.installing.webpack === 0;
-    console.log(chalk.gray(`${ opts.installing.webpack ? 'Add Webpack' : 'Don\'t add Webpack' }`));
+    const taskRunners = ['Webpack', 'Vite'];
+    opts.taskRunners = readlineSync.keyInSelect(taskRunners, null,
+      { cancel: 'None' }
+    );
+    if (opts.taskRunners > -1) {
+      console.log(chalk.gray(`${ taskRunners[opts.taskRunners] } selected`));
+    } else {
+      console.log(chalk.gray(`No task runner selected`));
+    }
+    opts.installing.webpack = opts.taskRunners === 0;
+    opts.installing.vite = opts.taskRunners === 1;
 
-    if (opts.installing.webpack) {
+    if (opts.installing.webpack || opts.installing.vite) {
       opts.installing.folderStructure = true;
     } else {
       console.log(chalk.cyan(`\nAdd default 'frontend' folder?`));
@@ -104,6 +114,12 @@ const applicationOptions = () => {
       opts.installing.folderStructure = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
       opts.installing.folderStructure = opts.installing.folderStructure === 0;
       console.log(chalk.gray(`${ opts.installing.folderStructure ? 'Add folder structure' : 'Don\'t add folder structure' }`));
+    }
+
+    if (opts.installing.webpack || opts.installing.vite) {
+      console.log(chalk.cyan(`\nDo you want to use an SVG sprite?`));
+      opts.installing.svgsprite = readlineSync.keyInSelect(['Yes'], null, { cancel: 'No'});
+      opts.installing.svgsprite = opts.installing.svgsprite === 0;
     }
 
     if (opts.installing.folderStructure) {
