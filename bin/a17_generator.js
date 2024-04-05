@@ -8,6 +8,7 @@ import readlineSync from 'readline-sync';
 
 import libs from '../src/libs.js';
 
+import nodeVersion from '../src/nodeVersion.js';
 import writePkgJson from '../src/writePkgJson.js';
 import applicationOptions from '../src/applicationOptions.js';
 import installPackages from '../src/installPackages.js';
@@ -37,6 +38,8 @@ console.log(`
   /777A         17771  /77/
   A777/          7777/ A71
 `);
+
+nodeVersion();
 
 printStep('Choose application name');
 console.log(chalk.cyan(`\nIs "${ chalk.white(appName) }" your application name?`));
